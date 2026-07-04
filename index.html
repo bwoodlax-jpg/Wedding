@@ -196,7 +196,7 @@
   <a href="https://quynh-ben.my.canva.site/wedding/" target="_blank">&lsaquo;&nbsp;&nbsp;Return to Wedding Website</a>
 </div>
 
-<div class="hero">
+<div class="hero" id="heroSection">
   <span class="eyebrow">The Wedding of</span>
   <h1>Quynh &amp; Benjamin</h1>
   <div class="meta">
@@ -206,7 +206,7 @@
   <div class="ornament"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
 </div>
 
-<div class="invite-band">
+<div class="invite-band" id="inviteBand">
   <div class="you">You are invited</div>
   <p>We&rsquo;re so delighted you&rsquo;re here and can&rsquo;t wait to celebrate this special moment with you. Kindly reply below.</p>
 </div>
@@ -454,6 +454,8 @@
 
   function selectGuest(g){
     currentGuest=g;attendState={};hideAllHints();input.value=g.name;
+    document.getElementById('heroSection').style.display='none';
+    document.getElementById('inviteBand').style.display='none';
     document.getElementById('searchSection').style.display='none';
     document.getElementById('testGuide').style.display='none';
     document.getElementById('rsvpForm').style.display='block';
@@ -515,6 +517,8 @@
     currentGuest=null;attendState={};input.value='';hideAllHints();
     document.getElementById('rsvpForm').style.display='none';
     document.getElementById('confirmation').classList.remove('visible');
+    document.getElementById('heroSection').style.display='block';
+    document.getElementById('inviteBand').style.display='block';
     document.getElementById('testGuide').style.display='block';
     document.getElementById('searchSection').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});
