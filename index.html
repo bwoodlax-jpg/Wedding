@@ -48,11 +48,11 @@
     .hero .eyebrow{display:block;margin-bottom:14px;letter-spacing:5px;}
     .hero h1{font-family:'Pinyon Script',cursive;font-size:5rem;line-height:1;
       color:var(--green-deep);font-weight:400;margin:6px 0;}
+    .hero h1 .amp{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+      font-size:.58em;vertical-align:.06em;padding:0 .04em;}
     .hero .meta{margin-top:22px;font-family:'Cormorant',serif;font-weight:500;font-size:.72rem;
       letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);line-height:2.1;}
-    .ornament{display:flex;align-items:center;justify-content:center;gap:14px;margin:24px auto 0;}
-    .ornament .ln{width:48px;height:1px;background:var(--gold);}
-    .ornament .dot{width:6px;height:6px;border:1px solid var(--gold);transform:rotate(45deg);}
+    .flourish{display:block;margin:24px auto 0;width:min(340px,78%);height:auto;color:var(--green);}
 
     /* ── Invite band (green) ── */
     .invite-band{background:var(--green);color:var(--on-green);text-align:center;
@@ -198,11 +198,30 @@
 
 <div class="hero" id="heroSection">
   <span class="eyebrow">The Wedding of</span>
-  <h1>Quynh &amp; Benjamin</h1>
+  <h1>Quynh <span class="amp">&amp;</span> Benjamin</h1>
   <div class="meta">
     August 28, 2027 &nbsp;&middot;&nbsp; 5:00 PM<br>
     The Grandover Hotel &amp; Resort
   </div>
+  <svg class="flourish" viewBox="0 0 300 54" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <g>
+      <path d="M150,31
+               C 140,22 127,17 114,19
+               C 96,22 86,35 99,38
+               C 112,41 113,20 91,18
+               C 68,15 50,23 38,15
+               C 32,11 27,15 32,19"/>
+    </g>
+    <g transform="translate(300,0) scale(-1,1)">
+      <path d="M150,31
+               C 140,22 127,17 114,19
+               C 96,22 86,35 99,38
+               C 112,41 113,20 91,18
+               C 68,15 50,23 38,15
+               C 32,11 27,15 32,19"/>
+    </g>
+  </svg>
 </div>
 
 <div class="invite-band" id="inviteBand">
