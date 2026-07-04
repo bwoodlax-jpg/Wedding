@@ -203,7 +203,6 @@
     August 28, 2027 &nbsp;&middot;&nbsp; 5:00 PM<br>
     The Grandover Hotel &amp; Resort
   </div>
-  <div class="ornament"><span class="ln"></span><span class="dot"></span><span class="ln"></span></div>
 </div>
 
 <div class="invite-band" id="inviteBand">
@@ -293,20 +292,7 @@
       <div id="plusOneFields"></div>
     </div>
 
-    <div class="form-section first" id="event-welcome">
-      <div class="event-head">
-        <div class="ev-when">Friday &middot; August 27</div>
-        <div class="ev-title">Welcome Party</div>
-        <div class="ev-loc">8:00 PM &middot; Griffin Ballroom</div>
-      </div>
-      <div class="attend-q">Will you join us?</div>
-      <div class="yn-group">
-        <button class="yn-btn yes" onclick="toggleAttend('welcome',true)">Joyfully accepts</button>
-        <button class="yn-btn no" onclick="toggleAttend('welcome',false)">Regretfully declines</button>
-      </div>
-    </div>
-
-    <div class="form-section" id="event-tea">
+    <div class="form-section first" id="event-tea">
       <div class="event-head">
         <div class="ev-when">Friday &middot; August 27</div>
         <div class="ev-title">Tea Ceremony</div>
@@ -316,6 +302,19 @@
       <div class="yn-group">
         <button class="yn-btn yes" onclick="toggleAttend('tea',true)">Joyfully accepts</button>
         <button class="yn-btn no" onclick="toggleAttend('tea',false)">Regretfully declines</button>
+      </div>
+    </div>
+
+    <div class="form-section" id="event-welcome">
+      <div class="event-head">
+        <div class="ev-when">Friday &middot; August 27</div>
+        <div class="ev-title">Welcome Party</div>
+        <div class="ev-loc">8:00 PM &middot; Griffin Ballroom</div>
+      </div>
+      <div class="attend-q">Will you join us?</div>
+      <div class="yn-group">
+        <button class="yn-btn yes" onclick="toggleAttend('welcome',true)">Joyfully accepts</button>
+        <button class="yn-btn no" onclick="toggleAttend('welcome',false)">Regretfully declines</button>
       </div>
     </div>
 
@@ -476,7 +475,7 @@
     } else po.classList.remove('visible');
 
     let first=true;
-    ['welcome','tea','wedding'].forEach(ev=>{
+    ['tea','welcome','wedding'].forEach(ev=>{
       const el=document.getElementById('event-'+ev);
       el.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('active'));
       const show=g.events.includes(ev);
@@ -500,7 +499,8 @@
   function submitRSVP(){
     if(!currentGuest)return;
     const labels={welcome:'Welcome Party',tea:'Tea Ceremony',wedding:'The Wedding'};
-    const lines=currentGuest.events.map(ev=>{
+    const order=['tea','welcome','wedding'];
+    const lines=order.filter(ev=>currentGuest.events.includes(ev)).map(ev=>{
       const a=attendState[ev];
       if(a===true)return '&#10003;&nbsp; '+labels[ev]+' &mdash; Joyfully accepts';
       if(a===false)return '&#10007;&nbsp; '+labels[ev]+' &mdash; Regretfully declines';
