@@ -16,7 +16,7 @@ browser, and log every RSVP to the sheet.
 - Write submissions to the **RSVP Responses** tab (one row per person).
 - Closes the biggest privacy risk — see `SECURITY-RISKS.md` (Risk #2).
 - Data lives in: **Wedding RSVP Data — Quynh & Benjamin** (private Google Sheet)
-  https://docs.google.com/spreadsheets/d/1dUJHYoVmA1df8tRIdLBSuY8U_5IQP2-k2XEZTXAqM8Q/edit
+  https://docs.google.com/spreadsheets/d/1KsHd-9A-et49a-fzvmevxkZhSwr_KvduGkDu5sTGnMg/edit
 
 ### 2. Frontend display enhancements
 Front-page / visual polish, deferred for now. Includes (non-exhaustive):
