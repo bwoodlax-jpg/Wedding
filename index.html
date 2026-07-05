@@ -463,8 +463,14 @@
     return [...set];
   }
   const INDEX=[];
-  PARTIES.forEach((p,pi)=>p.members.forEach(m=>
-    aliasNames(m.n,m.k).forEach(term=>INDEX.push({term,pi,name:m.n}))));
+  // Children (t:"c") are NOT searchable — a parent finds the party, and the
+  // child then appears under "Others in Your Party". Fall back to all members
+  // only if a party somehow has no adult, so it stays findable.
+  PARTIES.forEach((p,pi)=>{
+    const searchable=p.members.filter(m=>m.t!=='c');
+    (searchable.length?searchable:p.members).forEach(m=>
+      aliasNames(m.n,m.k).forEach(term=>INDEX.push({term,pi,name:m.n})));
+  });
   const fuse=new Fuse(INDEX,{keys:['term'],threshold:0.4,ignoreLocation:true,includeScore:true,minMatchCharLength:2,distance:100});
 
   function searchGuests(q){
