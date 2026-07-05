@@ -70,19 +70,6 @@
       letter-spacing:3px;text-transform:uppercase;color:var(--ink);}
     .section-head p{font-style:italic;color:var(--ink-soft);max-width:430px;margin:10px auto 0;font-size:1.05rem;}
 
-    /* ── Test guide ── */
-    .test-guide{background:var(--card);border:1px solid var(--line);border-radius:3px;
-      padding:22px 24px;margin-bottom:40px;}
-    .test-guide .eyebrow{display:block;margin-bottom:5px;}
-    .test-guide .gnote{font-style:italic;color:var(--ink-soft);font-size:.98rem;margin-bottom:16px;}
-    .tier{margin-bottom:15px;}.tier:last-child{margin-bottom:0;}
-    .tier .tname{font-family:'Cormorant',serif;font-weight:600;font-size:.66rem;letter-spacing:1.5px;
-      text-transform:uppercase;color:var(--green-deep);padding-bottom:5px;border-bottom:1px solid var(--line);margin-bottom:7px;}
-    .tier table{width:100%;border-collapse:collapse;margin-top:4px;}
-    .tier td{padding:3px 8px 3px 0;color:var(--ink);vertical-align:top;font-size:1.02rem;}
-    .tier td:first-child{font-weight:500;white-space:nowrap;}
-    .tier td:nth-child(2){font-style:italic;color:var(--ink-soft);font-size:.88rem;}
-
     /* ── Search ── */
     .search-wrap{position:relative;max-width:440px;margin:0 auto;}
     .search-input{width:100%;padding:16px 20px;font-family:'Cormorant Garamond',serif;font-size:1.2rem;
@@ -123,6 +110,16 @@
     .plusone-section{margin-bottom:28px;display:none;}.plusone-section.visible{display:block;}
     .plusone-section .eyebrow{display:block;text-align:center;margin-bottom:16px;}
     .plusone-field{margin-bottom:14px;}.plusone-field:last-child{margin-bottom:0;}
+
+    /* ── Party members ── */
+    .party-section{margin-bottom:26px;display:none;}.party-section.visible{display:block;}
+    .party-section .eyebrow{display:block;text-align:center;margin-bottom:16px;}
+    .party-member{margin-bottom:20px;}.party-member:last-child{margin-bottom:0;}
+    .pm-name{text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:1.12rem;
+      letter-spacing:.5px;color:var(--ink);margin-bottom:9px;}
+    .pm-tag{font-family:'Cormorant',serif;font-weight:500;font-size:.56rem;letter-spacing:1.5px;
+      text-transform:uppercase;color:var(--green-deep);border:1px solid var(--line);border-radius:2px;
+      padding:1px 6px;margin-left:6px;vertical-align:middle;}
 
     /* ── Event cards ── */
     .form-section{padding:28px 4px;border-top:1px solid var(--line);display:none;}
@@ -231,42 +228,6 @@
 
 <div class="main">
 
-  <!-- Test guide -->
-  <div class="test-guide" id="testGuide">
-    <span class="eyebrow">Testing &mdash; Guests by Tier</span>
-    <div class="gnote">Each tier sees only its invited events. Try the nicknames and a typo or two.</div>
-    <div class="tier">
-      <div class="tname">Tier A &mdash; Full Weekend &middot; Welcome + Tea + Wedding</div>
-      <table>
-        <tr><td>Benjamin Wood</td><td>try &ldquo;Ben&rdquo;</td><td>+1</td></tr>
-        <tr><td>James Wilson</td><td>try &ldquo;Jim&rdquo;</td><td>+2</td></tr>
-        <tr><td>Lisa Williams</td><td></td><td>+1</td></tr>
-      </table>
-    </div>
-    <div class="tier">
-      <div class="tname">Tier B &mdash; Tea Ceremony + Wedding</div>
-      <table>
-        <tr><td>Michael Chen</td><td>try &ldquo;Mike&rdquo;</td><td>+1</td></tr>
-        <tr><td>Kyle Anderson</td><td></td><td>+1</td></tr>
-      </table>
-    </div>
-    <div class="tier">
-      <div class="tname">Tier C &mdash; Welcome Party + Wedding</div>
-      <table>
-        <tr><td>Sarah Johnson</td><td></td><td>+2</td></tr>
-        <tr><td>David Thompson</td><td>try &ldquo;Dave&rdquo;</td><td>+1</td></tr>
-      </table>
-    </div>
-    <div class="tier">
-      <div class="tname">Tier D &mdash; Wedding Only</div>
-      <table>
-        <tr><td>Kyle Smith</td><td></td><td>solo</td></tr>
-        <tr><td>Jennifer Martinez</td><td>try &ldquo;Jen&rdquo;</td><td>solo</td></tr>
-        <tr><td>Robert Brown</td><td>try &ldquo;Bob&rdquo;</td><td>+1</td></tr>
-      </table>
-    </div>
-  </div>
-
   <!-- Step 1 -->
   <div id="searchSection">
     <div class="section-head">
@@ -304,6 +265,11 @@
       <span class="script">Your Response</span>
       <h2>RSVP</h2>
       <p>Please reply below.</p>
+    </div>
+
+    <div class="party-section" id="partySection">
+      <span class="eyebrow">Others in Your Party</span>
+      <div id="partyFields"></div>
     </div>
 
     <div class="plusone-section" id="plusOneSection">
@@ -407,37 +373,108 @@
     margaret:['Maggie','Meg','Peggy'], maggie:['Margaret']
   };
 
-  const GUESTS = [
-    {id:1,  name:"Benjamin Wood",     allowed:1, events:["welcome","tea","wedding"]},
-    {id:2,  name:"James Wilson",      allowed:2, events:["welcome","tea","wedding"]},
-    {id:3,  name:"Lisa Williams",     allowed:1, events:["welcome","tea","wedding"]},
-    {id:4,  name:"Michael Chen",      allowed:1, events:["tea","wedding"]},
-    {id:5,  name:"Kyle Anderson",     allowed:1, events:["tea","wedding"]},
-    {id:6,  name:"Sarah Johnson",     allowed:2, events:["welcome","wedding"]},
-    {id:7,  name:"David Thompson",    allowed:1, events:["welcome","wedding"]},
-    {id:8,  name:"Kyle Smith",        allowed:0, events:["wedding"]},
-    {id:9,  name:"Jennifer Martinez", allowed:0, events:["wedding"]},
-    {id:10, name:"Robert Brown",      allowed:1, events:["wedding"]},
+  // Parties loaded from the Guest List sheet. Each party groups people who
+  // RSVP together (shared Party ID). members: n=name, t=a(dult)/c(hild), k=nicknames.
+  // NOTE: event gating defaults to all three where the sheet's Welcome/Tea/Wedding
+  // columns were still blank — only an explicit "No" excludes an event.
+  const PARTIES = [
+    {id:"P012", events:["welcome","tea","wedding"], plus:0, members:[{n:"Thomas Wood", t:"a", k:["Tom", "Tommy"]}, {n:"Gerardo Hernandez-Diaz", t:"a"}]},
+    {id:"P013", events:["welcome","tea","wedding"], plus:1, members:[{n:"Isabel Wood", t:"a"}]},
+    {id:"P014", events:["welcome","tea","wedding"], plus:0, members:[{n:"Turner Wood", t:"a"}, {n:"Ashley Wood", t:"a"}]},
+    {id:"P015", events:["welcome","tea","wedding"], plus:0, members:[{n:"Tom Wood", t:"a"}, {n:"Gwendolyn Wood", t:"a"}]},
+    {id:"P016", events:["welcome","wedding"], plus:0, members:[{n:"Kyle Mackinen", t:"a"}, {n:"Emily Mackinen", t:"a"}, {n:"Teddy Mackinen", t:"c"}]},
+    {id:"P017", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ricky Freemon", t:"a"}, {n:"Suzzane Freemon", t:"a"}]},
+    {id:"P018", events:["welcome","tea","wedding"], plus:0, members:[{n:"Dan Clark", t:"a"}, {n:"Carrie Clark", t:"a"}, {n:"Caden Clark", t:"a"}, {n:"Colton Clark", t:"c"}]},
+    {id:"P019", events:["welcome","tea","wedding"], plus:0, members:[{n:"Patrica McLaurin", t:"a"}]},
+    {id:"P020", events:["welcome","tea","wedding"], plus:0, members:[{n:"Allen McLaurin", t:"a"}, {n:"Jane McLaurin", t:"a"}]},
+    {id:"P021", events:["welcome","tea","wedding"], plus:0, members:[{n:"David McLaurin", t:"a"}, {n:"Allie McLaurin", t:"a"}]},
+    {id:"P022", events:["welcome","tea","wedding"], plus:0, members:[{n:"John McLaurin", t:"a"}, {n:"Allie McLaurin", t:"a"}]},
+    {id:"P023", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jenny Mahorney", t:"a"}, {n:"Thomas Mahorney", t:"c"}, {n:"Cora Mahorney", t:"c"}, {n:"Lillian Mahorney", t:"c"}, {n:"Jonathan Mahorney", t:"c"}]},
+    {id:"P024", events:["welcome","tea","wedding"], plus:0, members:[{n:"Kevin Dart", t:"a"}, {n:"Jane Dart", t:"a"}, {n:"Louisa Dart", t:"c"}, {n:"Richard Dart", t:"c"}]},
+    {id:"P025", events:["welcome","tea","wedding"], plus:1, members:[{n:"Mariane Burris", t:"a"}]},
+    {id:"P026", events:["welcome","tea","wedding"], plus:0, members:[{n:"Bryan Goodwin", t:"a"}, {n:"Cindy Goodwin", t:"a"}, {n:"Ophelia Goodwin", t:"c"}]},
+    {id:"P027", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ray Burris", t:"a"}, {n:"Jeanene Burris", t:"a"}]},
+    {id:"P028", events:["welcome","tea","wedding"], plus:0, members:[{n:"William Cannon", t:"a"}, {n:"Stephanie Cannon", t:"a"}, {n:"William Cannon Jr.", t:"c"}, {n:"Caroline Cannon", t:"c"}]},
+    {id:"P029", events:["welcome","tea","wedding"], plus:0, members:[{n:"Wes Cannon", t:"a"}, {n:"Emily Cannon", t:"a"}]},
+    {id:"P030", events:["welcome","tea","wedding"], plus:0, members:[{n:"Joeseph Murphy", t:"a"}, {n:"Cathrine Murphy", t:"a"}, {n:"Allison Murphy", t:"a"}, {n:"Rachel Murphy", t:"a"}]},
+    {id:"P031", events:["welcome","tea","wedding"], plus:0, members:[{n:"Bruce Cannon", t:"a"}, {n:"Mariane Cannon", t:"a"}]},
+    {id:"P032", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ashby Watts", t:"a"}, {n:"Merrill Watts", t:"a"}]},
+    {id:"P033", events:["welcome","tea","wedding"], plus:1, members:[{n:"Ash Watts", t:"a"}]},
+    {id:"P034", events:["welcome","tea","wedding"], plus:1, members:[{n:"Clark Watts", t:"a"}]},
+    {id:"P035", events:["welcome","tea","wedding"], plus:1, members:[{n:"Carlise Watts", t:"a"}]},
+    {id:"P036", events:["welcome","tea","wedding"], plus:0, members:[{n:"Robin Williams", t:"a"}]},
+    {id:"P037", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jordan Williams", t:"a"}, {n:"Olivia Williams", t:"a"}]},
+    {id:"P038", events:["welcome","tea","wedding"], plus:1, members:[{n:"Madylen Williams", t:"a"}]},
+    {id:"P039", events:["welcome","tea","wedding"], plus:1, members:[{n:"Emily Williams", t:"a"}]},
+    {id:"P040", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ryan Gehsmann", t:"a"}, {n:"Kelsey Gehsmann", t:"a"}, {n:"Caison Gehsmann", t:"c"}, {n:"Riley Gehsmann", t:"c"}]},
+    {id:"P041", events:["welcome","tea","wedding"], plus:0, members:[{n:"Kurt Gehsmann", t:"a"}, {n:"Jackie Gehsmann", t:"a"}]},
+    {id:"P042", events:["welcome","tea","wedding"], plus:0, members:[{n:"Greg Gehsmann", t:"a"}]},
+    {id:"P043", events:["welcome","tea","wedding"], plus:0, members:[{n:"Kevin Gehsmann", t:"a"}]},
+    {id:"P044", events:["welcome","tea","wedding"], plus:0, members:[{n:"Nasim Abu-Hashem", t:"a"}, {n:"Loaa Abu-Hashem", t:"a"}]},
+    {id:"P045", events:["welcome","tea","wedding"], plus:1, members:[{n:"Kyle Satterfield", t:"a"}]},
+    {id:"P046", events:["welcome","tea","wedding"], plus:1, members:[{n:"Parker Hendricks", t:"a"}]},
+    {id:"P047", events:["welcome","tea","wedding"], plus:1, members:[{n:"Jonathan Muse", t:"a"}]},
+    {id:"P048", events:["welcome","tea","wedding"], plus:1, members:[{n:"Ridge Bell", t:"a"}]},
+    {id:"P049", events:["welcome","tea","wedding"], plus:0, members:[{n:"Evan Heiman", t:"a"}, {n:"Vivian Nguyen", t:"a"}, {n:"Julia Heiman", t:"c"}]},
+    {id:"P050", events:["welcome","tea","wedding"], plus:0, members:[{n:"Bert Exum", t:"a"}]},
+    {id:"P051", events:["welcome","tea","wedding"], plus:0, members:[{n:"Robert Exum", t:"a"}]},
+    {id:"P052", events:["welcome","tea","wedding"], plus:0, members:[{n:"Eli Exum", t:"a"}, {n:"Taylor Exum", t:"a"}]},
+    {id:"P053", events:["welcome","tea","wedding"], plus:1, members:[{n:"Ann Carter Exum", t:"a"}]},
+    {id:"P054", events:["welcome","tea","wedding"], plus:1, members:[{n:"Patrick Higgins", t:"a"}]},
+    {id:"P055", events:["welcome","tea","wedding"], plus:0, members:[{n:"James Williams", t:"a"}]},
+    {id:"P056", events:["welcome","tea","wedding"], plus:0, members:[{n:"Keith Willis", t:"a"}, {n:"Lori Willis", t:"a"}]},
+    {id:"P057", events:["welcome","tea","wedding"], plus:0, members:[{n:"Micheal Westbrook", t:"a"}, {n:"Lee Westbrook", t:"a"}]},
+    {id:"P100", events:["welcome","tea","wedding"], plus:0, members:[{n:"Diem Ngo", t:"a"}, {n:"Long Ngo", t:"a"}]},
+    {id:"P101", events:["welcome","tea","wedding"], plus:1, members:[{n:"Miley Ngo", t:"a"}]},
+    {id:"P102", events:["welcome","tea","wedding"], plus:0, members:[{n:"Sara Ho", t:"a"}, {n:"Hieu Ngo", t:"a"}]},
+    {id:"P103", events:["welcome","tea","wedding"], plus:0, members:[{n:"Sarah Kennardi", t:"a"}, {n:"Ken Kennardi", t:"a"}, {n:"Keanu Kennardi", t:"c"}]},
+    {id:"P104", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jasmine Lim", t:"a"}, {n:"Danny Nguyen", t:"a"}]},
+    {id:"P105", events:["welcome","tea","wedding"], plus:1, members:[{n:"Khuong Ho", t:"a"}]},
+    {id:"P106", events:["welcome","tea","wedding"], plus:1, members:[{n:"Hoang Ho", t:"a"}, {n:"Phuong Ho", t:"a"}, {n:"Son Ho", t:"a"}, {n:"Minh Ho", t:"c"}]},
+    {id:"P107", events:["welcome","tea","wedding"], plus:0, members:[{n:"Yi Tran", t:"a"}, {n:"Peter Ly", t:"a"}]},
+    {id:"P108", events:["welcome","tea","wedding"], plus:1, members:[{n:"Elaine Dang", t:"a"}]},
+    {id:"P109", events:["welcome","tea","wedding"], plus:0, members:[{n:"Hannah Dickinson", t:"a"}, {n:"Davy Bunton", t:"a"}]},
+    {id:"P110", events:["welcome","tea","wedding"], plus:0, members:[{n:"Christina Cheng", t:"a"}, {n:"Roger Nguyen", t:"a"}]},
+    {id:"P111", events:["welcome","tea","wedding"], plus:1, members:[{n:"Tram Nguyen", t:"a"}]},
+    {id:"P112", events:["welcome","tea","wedding"], plus:1, members:[{n:"Nikki Robinson", t:"a"}]},
+    {id:"P113", events:["welcome","tea","wedding"], plus:1, members:[{n:"Christina Ho", t:"a"}]},
+    {id:"P114", events:["welcome","tea","wedding"], plus:1, members:[{n:"Brandon Ho", t:"a"}, {n:"Hieu Ho", t:"a"}, {n:"Nicole Ho", t:"a"}, {n:"Ryan Ho", t:"a"}, {n:"Matthew Ho", t:"a"}]},
+    {id:"P115", events:["welcome","tea","wedding"], plus:0, members:[{n:"Karla Nguyen", t:"a"}, {n:"Monge Thongsithavong", t:"a"}, {n:"Logan Thongsithavong", t:"a"}]},
+    {id:"P116", events:["welcome","tea","wedding"], plus:0, members:[{n:"Hanh Ho", t:"a"}, {n:"Ho Canh Bang", t:"a"}]},
+    {id:"P117", events:["welcome","tea","wedding"], plus:1, members:[{n:"Tan Ho", t:"a"}, {n:"Trung Ho", t:"a"}, {n:"Nga Nguyen", t:"a"}]},
+    {id:"P118", events:["welcome","tea","wedding"], plus:1, members:[{n:"Trang Ho", t:"a"}, {n:"Linh Ho", t:"a"}, {n:"Tram Ho", t:"a"}]},
+    {id:"P119", events:["welcome","tea","wedding"], plus:1, members:[{n:"Tan Ho", t:"a"}]},
+    {id:"P120", events:["welcome","tea","wedding"], plus:0, members:[{n:"Chau Le", t:"a"}, {n:"Huy Le", t:"a"}, {n:"Tyller Le", t:"a"}]},
+    {id:"P121", events:["welcome","tea","wedding"], plus:5, members:[{n:"Uoc Ho", t:"a"}, {n:"Hoa Ho", t:"a"}]},
+    {id:"P122", events:["welcome","tea","wedding"], plus:0, members:[{n:"Vivian Nguyen", t:"a"}, {n:"Erik McMillan", t:"a"}]},
+    {id:"P123", events:["welcome","tea","wedding"], plus:5, members:[{n:"Loc Luong", t:"a"}, {n:"Linh Luong", t:"a"}]},
+    {id:"P124", events:["welcome","tea","wedding"], plus:1, members:[{n:"Victoria Nguyen", t:"a"}]},
+    {id:"P125", events:["welcome","tea","wedding"], plus:1, members:[{n:"Grant Garrett", t:"a"}]},
+    {id:"P126", events:["welcome","tea","wedding"], plus:0, members:[{n:"Nelson Sanchez", t:"a"}, {n:"Suany Sanchez", t:"a"}, {n:"Benjamin Sanchez", t:"c"}]},
+    {id:"P127", events:["welcome","tea","wedding"], plus:1, members:[{n:"Karsen Dhanaraj", t:"a"}]},
+    {id:"P128", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jeannie Tran Kim", t:"a"}, {n:"Alex Kim", t:"a"}, {n:"Sasha Kim", t:"c"}]},
   ];
 
-  function aliasNames(full){
+  function aliasNames(full, extra){
     const parts=full.split(' '), first=parts[0], last=parts.slice(1).join(' ');
     const set=new Set([full]);
     (NICK[first.toLowerCase()]||[]).forEach(v=>set.add((v+' '+last).trim()));
+    (extra||[]).forEach(v=>{set.add(v);set.add((v+' '+last).trim());});
     return [...set];
   }
   const INDEX=[];
-  GUESTS.forEach(g=>aliasNames(g.name).forEach(term=>INDEX.push({term,guestId:g.id,guest:g})));
+  PARTIES.forEach((p,pi)=>p.members.forEach(m=>
+    aliasNames(m.n,m.k).forEach(term=>INDEX.push({term,pi,name:m.n}))));
   const fuse=new Fuse(INDEX,{keys:['term'],threshold:0.4,ignoreLocation:true,includeScore:true,minMatchCharLength:2,distance:100});
 
   function searchGuests(q){
     const raw=fuse.search(q),best={};
-    raw.forEach(r=>{const id=r.item.guestId;
-      if(!(id in best)||r.score<best[id].score) best[id]={guest:r.item.guest,score:r.score};});
+    raw.forEach(r=>{const key=r.item.pi+'|'+r.item.name;
+      if(!(key in best)||r.score<best[key].score) best[key]={pi:r.item.pi,name:r.item.name,score:r.score};});
     return Object.values(best).sort((a,b)=>a.score-b.score);
   }
 
-  let currentGuest=null,attendState={},t1=null;
+  let currentParty=null,currentPerson='',currentOthers=[],attendState={},memberState={},t1=null;
   const input=document.getElementById('nameInput');
   const sugg=document.getElementById('suggestion');
   const suggName=document.getElementById('suggestName');
@@ -463,33 +500,52 @@
       return;
     }
     if(m.length>=2&&(m[1].score-m[0].score)<0.10){ambiguousHint.style.display='block';return;}
-    suggName.textContent=m[0].guest.name;
-    document.getElementById('suggestionItem').onclick=()=>selectGuest(m[0].guest);
+    suggName.textContent=m[0].name;
+    document.getElementById('suggestionItem').onclick=()=>selectParty(m[0].pi,m[0].name);
     sugg.style.display='block';
   }
 
   document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))sugg.style.display='none';});
 
-  function selectGuest(g){
-    currentGuest=g;attendState={};hideAllHints();input.value=g.name;
+  function selectParty(pi,person){
+    const p=PARTIES[pi];
+    currentParty=p;currentPerson=person;attendState={};memberState={};hideAllHints();input.value=person;
     document.getElementById('heroSection').style.display='none';
     document.getElementById('inviteBand').style.display='none';
     document.getElementById('searchSection').style.display='none';
-    document.getElementById('testGuide').style.display='none';
     document.getElementById('rsvpForm').style.display='block';
     document.getElementById('welcomeCard').style.display='block';
-    document.getElementById('welcomeName').innerHTML='Welcome, <b>'+g.name+'</b>';
-    document.getElementById('welcomeInfo').textContent=
-      g.allowed===0?'We have you reserved as our guest.'
-      :g.allowed===1?'You are invited with one additional guest.'
-      :'You are invited with '+g.allowed+' additional guests.';
+    document.getElementById('welcomeName').innerHTML='Welcome, <b>'+person+'</b>';
 
+    currentOthers=p.members.filter(m=>m.n!==person);
+    const info=[];
+    if(currentOthers.length) info.push('your party');
+    if(p.plus>0) info.push(p.plus+' additional guest'+(p.plus>1?'s':''));
+    document.getElementById('welcomeInfo').textContent=
+      info.length? 'You are invited with '+info.join(' and ')+'. Please reply for everyone below.'
+                 : 'We have you reserved as our guest.';
+
+    // Other named members of the party
+    const ps=document.getElementById('partySection'),pff=document.getElementById('partyFields');
+    pff.innerHTML='';
+    if(currentOthers.length){ps.classList.add('visible');
+      currentOthers.forEach((m,i)=>{
+        pff.innerHTML+='<div class="party-member" id="pm-'+i+'">'+
+          '<div class="pm-name">'+m.n+(m.t==='c'?' <span class="pm-tag">Child</span>':'')+'</div>'+
+          '<div class="yn-group">'+
+          '<button class="yn-btn yes" onclick="toggleMember('+i+',true)">Joyfully accepts</button>'+
+          '<button class="yn-btn no" onclick="toggleMember('+i+',false)">Regretfully declines</button>'+
+          '</div></div>';
+      });
+    } else ps.classList.remove('visible');
+
+    // Additional (unnamed) guests
     const po=document.getElementById('plusOneSection'),pf=document.getElementById('plusOneFields');
     pf.innerHTML='';
-    if(g.allowed>0){po.classList.add('visible');
-      for(let i=1;i<=g.allowed;i++){
-        pf.innerHTML+='<div class="plusone-field"><label class="field-label">Guest '+
-          (g.allowed>1?i:'')+' Full Name</label><input type="text" id="plusone-'+i+'" placeholder="First and last name"></div>';
+    if(p.plus>0){po.classList.add('visible');
+      for(let i=1;i<=p.plus;i++){
+        pf.innerHTML+='<div class="plusone-field"><label class="field-label">Additional Guest '+
+          (p.plus>1?i:'')+' Full Name</label><input type="text" id="plusone-'+i+'" placeholder="First and last name"></div>';
       }
     } else po.classList.remove('visible');
 
@@ -497,7 +553,7 @@
     ['tea','welcome','wedding'].forEach(ev=>{
       const el=document.getElementById('event-'+ev);
       el.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('active'));
-      const show=g.events.includes(ev);
+      const show=p.events.includes(ev);
       el.classList.toggle('visible',show);
       el.classList.remove('first');
       if(show&&first){el.classList.add('first');first=false;}
@@ -508,6 +564,13 @@
     setTimeout(()=>document.getElementById('rsvpForm').scrollIntoView({behavior:'smooth',block:'start'}),100);
   }
 
+  function toggleMember(i,yes){
+    memberState[currentOthers[i].n]=yes;
+    const s=document.getElementById('pm-'+i);
+    s.querySelector('.yn-btn.yes').classList.toggle('active',yes);
+    s.querySelector('.yn-btn.no').classList.toggle('active',!yes);
+  }
+
   function toggleAttend(ev,yes){
     attendState[ev]=yes;
     const s=document.getElementById('event-'+ev);
@@ -516,29 +579,37 @@
   }
 
   function submitRSVP(){
-    if(!currentGuest)return;
+    if(!currentParty)return;
     const labels={welcome:'Welcome Party',tea:'Tea Ceremony',wedding:'The Wedding'};
     const order=['tea','welcome','wedding'];
-    const lines=order.filter(ev=>currentGuest.events.includes(ev)).map(ev=>{
+    const evLines=order.filter(ev=>currentParty.events.includes(ev)).map(ev=>{
       const a=attendState[ev];
       if(a===true)return '&#10003;&nbsp; '+labels[ev]+' &mdash; Joyfully accepts';
       if(a===false)return '&#10007;&nbsp; '+labels[ev]+' &mdash; Regretfully declines';
       return '&middot;&nbsp; '+labels[ev]+' &mdash; (no response yet)';
     });
+    let html='<span class="ch">'+currentPerson+'</span>'+
+      evLines.map(l=>'<div class="row">'+l+'</div>').join('');
+    if(currentOthers.length){
+      html+='<span class="ch">Your Party</span>'+currentOthers.map(m=>{
+        const a=memberState[m.n];
+        const mark=a===true?'&#10003;':a===false?'&#10007;':'&middot;';
+        const st=a===true?'Joyfully accepts':a===false?'Regretfully declines':'(no response yet)';
+        return '<div class="row">'+mark+'&nbsp; '+m.n+' &mdash; '+st+'</div>';
+      }).join('');
+    }
     document.getElementById('rsvpForm').style.display='none';
     const c=document.getElementById('confirmation');c.classList.add('visible');
-    document.getElementById('confDetail').innerHTML='<span class="ch">Your Responses</span>'+
-      lines.map(l=>'<div class="row">'+l+'</div>').join('');
+    document.getElementById('confDetail').innerHTML=html;
     c.scrollIntoView({behavior:'smooth',block:'center'});
   }
 
   function resetForm(){
-    currentGuest=null;attendState={};input.value='';hideAllHints();
+    currentParty=null;currentPerson='';currentOthers=[];attendState={};memberState={};input.value='';hideAllHints();
     document.getElementById('rsvpForm').style.display='none';
     document.getElementById('confirmation').classList.remove('visible');
     document.getElementById('heroSection').style.display='block';
     document.getElementById('inviteBand').style.display='block';
-    document.getElementById('testGuide').style.display='block';
     document.getElementById('searchSection').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});
     setTimeout(()=>input.focus(),400);
