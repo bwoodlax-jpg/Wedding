@@ -238,12 +238,7 @@
     <div class="search-wrap">
       <input type="text" id="nameInput" class="search-input" placeholder="Your name&hellip;"
         autocomplete="off" autocorrect="off" spellcheck="false">
-      <div class="suggestion" id="suggestion">
-        <div class="suggestion-item" id="suggestionItem">
-          <span class="suggest-name" id="suggestName"></span>
-          <span class="suggest-hint">Tap to confirm &rsaquo;</span>
-        </div>
-      </div>
+      <div class="suggestion" id="suggestion"></div>
     </div>
     <div class="hint-msg" id="ambiguousHint">More than one guest matches &mdash; please type your <b>full name</b>.</div>
     <div class="hint-msg" id="keepTypingHint">Keep typing &mdash; first name, last name, or both.</div>
@@ -344,41 +339,12 @@
 <footer>Quynh &amp; Benjamin &nbsp;&middot;&nbsp; August 28, 2027 &nbsp;&middot;&nbsp; The Grandover Hotel &amp; Resort</footer>
 
 <script>
-  const NICK = {
-    benjamin:['Ben','Benji','Benny'], ben:['Benjamin'],
-    michael:['Mike','Mickey','Mick'], mike:['Michael'],
-    william:['Will','Bill','Billy'], will:['William'], bill:['William'],
-    robert:['Rob','Bob','Bobby','Robbie'], rob:['Robert'], bob:['Robert'],
-    james:['Jim','Jimmy','Jamie'], jim:['James'],
-    jennifer:['Jen','Jenny'], jen:['Jennifer'],
-    elizabeth:['Liz','Beth','Lizzie','Eliza'], liz:['Elizabeth'], beth:['Elizabeth'],
-    katherine:['Kate','Katie','Kat','Kathy'], kate:['Katherine'], katie:['Katherine'],
-    david:['Dave','Davey'], dave:['David'],
-    christopher:['Chris'], chris:['Christopher'],
-    thomas:['Tom','Tommy'], tom:['Thomas'],
-    matthew:['Matt','Matty'], matt:['Matthew'],
-    samuel:['Sam','Sammy'], samantha:['Sam','Sammy'], sam:['Samuel','Samantha'],
-    alexander:['Alex','Xander'], alexandra:['Alex','Lexi'], alex:['Alexander','Alexandra'],
-    nicholas:['Nick','Nicky'], nick:['Nicholas'],
-    anthony:['Tony'], tony:['Anthony'],
-    andrew:['Andy','Drew'], andy:['Andrew'], drew:['Andrew'],
-    stephen:['Steve','Steven'], steven:['Steve','Stephen'], steve:['Stephen','Steven'],
-    daniel:['Dan','Danny'], dan:['Daniel'],
-    joseph:['Joe','Joey'], joe:['Joseph'],
-    patrick:['Pat'], patricia:['Pat','Patty'], pat:['Patrick','Patricia'],
-    richard:['Rich','Rick','Dick'], rich:['Richard'], rick:['Richard'],
-    charles:['Charlie','Chuck'], charlie:['Charles'],
-    jonathan:['Jon','Johnny'], jon:['Jonathan'],
-    edward:['Ed','Eddie','Ted'], ed:['Edward'],
-    margaret:['Maggie','Meg','Peggy'], maggie:['Margaret']
-  };
-
   // Parties loaded from the Guest List sheet. Each party groups people who
   // RSVP together (shared Party ID). members: n=name, t=a(dult)/c(hild), k=nicknames.
   // NOTE: event gating defaults to all three where the sheet's Welcome/Tea/Wedding
   // columns were still blank — only an explicit "No" excludes an event.
   const PARTIES = [
-    {id:"P012", events:["welcome","tea","wedding"], plus:0, members:[{n:"Thomas Wood", t:"a", k:["Tom", "Tommy"]}, {n:"Gerardo Hernandez-Diaz", t:"a"}]},
+    {id:"P012", events:["welcome","tea","wedding"], plus:0, members:[{n:"Thomas Wood", t:"a"}, {n:"Gerardo Hernandez-Diaz", t:"a"}]},
     {id:"P013", events:["welcome","tea","wedding"], plus:1, members:[{n:"Isabel Wood", t:"a"}]},
     {id:"P014", events:["welcome","tea","wedding"], plus:0, members:[{n:"Turner Wood", t:"a"}, {n:"Ashley Wood", t:"a"}]},
     {id:"P015", events:["welcome","tea","wedding"], plus:0, members:[{n:"Tom Wood", t:"a"}, {n:"Gwendolyn Wood", t:"a"}]},
@@ -394,7 +360,7 @@
     {id:"P025", events:["welcome","tea","wedding"], plus:1, members:[{n:"Mariane Burris", t:"a"}]},
     {id:"P026", events:["welcome","tea","wedding"], plus:0, members:[{n:"Bryan Goodwin", t:"a"}, {n:"Cindy Goodwin", t:"a"}, {n:"Ophelia Goodwin", t:"c"}]},
     {id:"P027", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ray Burris", t:"a"}, {n:"Jeanene Burris", t:"a"}]},
-    {id:"P028", events:["welcome","tea","wedding"], plus:0, members:[{n:"William Cannon", t:"a"}, {n:"Stephanie Cannon", t:"a"}, {n:"William Cannon Jr.", t:"c"}, {n:"Caroline Cannon", t:"c"}]},
+    {id:"P028", events:["welcome","tea","wedding"], plus:0, members:[{n:"William Cannon Sr.", t:"a"}, {n:"Stephanie Cannon", t:"a"}, {n:"William Cannon Jr.", t:"c"}, {n:"Caroline Cannon", t:"c"}]},
     {id:"P029", events:["welcome","tea","wedding"], plus:0, members:[{n:"Wes Cannon", t:"a"}, {n:"Emily Cannon", t:"a"}]},
     {id:"P030", events:["welcome","tea","wedding"], plus:0, members:[{n:"Joeseph Murphy", t:"a"}, {n:"Cathrine Murphy", t:"a"}, {n:"Allison Murphy", t:"a"}, {n:"Rachel Murphy", t:"a"}]},
     {id:"P031", events:["welcome","tea","wedding"], plus:0, members:[{n:"Bruce Cannon", t:"a"}, {n:"Mariane Cannon", t:"a"}]},
@@ -455,11 +421,12 @@
     {id:"P128", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jeannie Tran Kim", t:"a"}, {n:"Alex Kim", t:"a"}, {n:"Sasha Kim", t:"c"}]},
   ];
 
+  // Only names and nicknames the couple explicitly enters in the sheet are
+  // searchable — no automatic first-name guessing (so "Tom" won't match "Thomas").
   function aliasNames(full, extra){
-    const parts=full.split(' '), first=parts[0], last=parts.slice(1).join(' ');
+    const last=full.split(' ').slice(1).join(' ');
     const set=new Set([full]);
-    (NICK[first.toLowerCase()]||[]).forEach(v=>set.add((v+' '+last).trim()));
-    (extra||[]).forEach(v=>{set.add(v);set.add((v+' '+last).trim());});
+    (extra||[]).forEach(v=>{set.add(v); if(last) set.add((v+' '+last).trim());});
     return [...set];
   }
   const INDEX=[];
@@ -483,7 +450,6 @@
   let currentParty=null,currentPerson='',currentOthers=[],attendState={},memberState={},t1=null;
   const input=document.getElementById('nameInput');
   const sugg=document.getElementById('suggestion');
-  const suggName=document.getElementById('suggestName');
   const ambiguousHint=document.getElementById('ambiguousHint');
   const keepTypingHint=document.getElementById('keepTypingHint');
   const notFoundBox=document.getElementById('notFoundBox');
@@ -498,6 +464,25 @@
     t1=setTimeout(()=>runSearch(val),240);
   });
 
+  function partyHint(pi,name){
+    const p=PARTIES[pi];
+    const other=p.members.find(m=>m.n!==name&&m.t!=='c')||p.members.find(m=>m.n!==name);
+    return other?'with '+other.n:'Tap to confirm ›';
+  }
+
+  function showSuggestions(items){
+    sugg.innerHTML='';
+    items.forEach(it=>{
+      const d=document.createElement('div');d.className='suggestion-item';
+      const nm=document.createElement('span');nm.className='suggest-name';nm.textContent=it.name;
+      const ht=document.createElement('span');ht.className='suggest-hint';ht.textContent=it.sub;
+      d.appendChild(nm);d.appendChild(ht);
+      d.onclick=()=>selectParty(it.pi,it.name);
+      sugg.appendChild(d);
+    });
+    sugg.style.display='block';
+  }
+
   function runSearch(val){
     const m=searchGuests(val);
     if(m.length===0||m[0].score>0.42){
@@ -505,10 +490,18 @@
       else keepTypingHint.style.display='block';
       return;
     }
+    const norm=s=>s.trim().toLowerCase(), best=m[0];
+    // Same full name in more than one party (e.g. two "Allie McLaurin"):
+    // offer a chooser distinguished by a household member, since typing the
+    // full name can't tell them apart.
+    const sameName=m.filter(x=>norm(x.name)===norm(best.name)&&x.score-best.score<0.15);
+    if(sameName.length>=2){
+      showSuggestions(sameName.map(x=>({pi:x.pi,name:x.name,sub:partyHint(x.pi,x.name)})));
+      return;
+    }
+    // Different but similarly-spelled names: ask for the full name.
     if(m.length>=2&&(m[1].score-m[0].score)<0.10){ambiguousHint.style.display='block';return;}
-    suggName.textContent=m[0].name;
-    document.getElementById('suggestionItem').onclick=()=>selectParty(m[0].pi,m[0].name);
-    sugg.style.display='block';
+    showSuggestions([{pi:best.pi,name:best.name,sub:'Tap to confirm ›'}]);
   }
 
   document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))sugg.style.display='none';});
