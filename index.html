@@ -159,6 +159,11 @@
       text-transform:uppercase;cursor:pointer;transition:.2s;}
     .submit-btn:hover{background:var(--green-darker);}
     .submit-btn.visible{display:block;}
+    .submit-btn:disabled{opacity:.6;cursor:default;}
+    .submit-error{display:none;max-width:460px;margin:18px auto 0;padding:16px 20px;
+      background:var(--paper);border:1px solid var(--line);border-radius:3px;
+      text-align:center;color:var(--ink-soft);font-size:1.1rem;line-height:1.5;}
+    .submit-error a{color:var(--green-deep);font-weight:500;}
 
     /* ── Confirmation ── */
     .confirmation{text-align:center;padding:58px 20px;display:none;}.confirmation.visible{display:block;}
@@ -290,7 +295,7 @@
       <div class="event-head">
         <div class="ev-when">Friday &middot; August 27</div>
         <div class="ev-title">Rehearsal Dinner</div>
-        <div class="ev-loc">6:00 PM</div>
+        <div class="ev-loc">6:00 PM &middot; Griffin Ballroom</div>
       </div>
       <div class="attend-q">Will you join us?</div>
       <div class="yn-group">
@@ -337,6 +342,10 @@
     </div>
 
     <button class="submit-btn" id="submitBtn" onclick="submitRSVP()">Send My RSVP</button>
+    <div class="submit-error" id="submitError">
+      We couldn&rsquo;t save your reply just now. Please check your connection and try again,
+      or reach us at <a href="mailto:woodfamily.bq@gmail.com">woodfamily.bq@gmail.com</a>.
+    </div>
   </div>
 
   <!-- Confirmation -->
@@ -353,6 +362,12 @@
 <footer>Quynh &amp; Benjamin &nbsp;&middot;&nbsp; August 28, 2027 &nbsp;&middot;&nbsp; The Grandover Hotel &amp; Resort</footer>
 
 <script>
+  // ── Backend ────────────────────────────────────────────────────────
+  // Paste the Apps Script Web app URL here (it ends in /exec). See
+  // apps-script/Code.gs for the deploy steps. While this is empty the form
+  // still works but nothing is saved.
+  const RSVP_ENDPOINT = '';
+
   // Parties loaded from the Guest List sheet. Each party groups people who
   // RSVP together (shared Party ID). members: n=name, t=a(dult)/c(hild), k=nicknames.
   // NOTE: event gating defaults to all three where the sheet's Welcome/Tea/Wedding
@@ -398,7 +413,7 @@
     {id:"P049", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Evan Heiman", t:"a"}, {n:"Vivian Nguyen", t:"a"}, {n:"Julia Heiman", t:"c"}]},
     {id:"P050", events:["welcome","wedding"], plus:1, members:[{n:"Bert Exum", t:"a"}]},
     {id:"P051", events:["welcome","wedding"], plus:0, members:[{n:"Robert Exum", t:"a"}]},
-    {id:"P052", events:["welcome","wedding"], plus:0, members:[{n:"Eli Exum", t:"a"}, {n:"Taylor Exum", t:"a"}]},
+    {id:"P052", events:["welcome","wedding"], plus:0, members:[{n:"Eli Exum", t:"a"}, {n:"Taylor Exum", t:"a"}, {n:"Eileen Exum", t:"c"}, {n:"Elsie Exum", t:"c"}]},
     {id:"P053", events:["welcome","wedding"], plus:1, members:[{n:"Ann Carter Exum", t:"a"}]},
     {id:"P054", events:["welcome","wedding"], plus:1, members:[{n:"Patrick Higgins", t:"a"}]},
     {id:"P055", events:["welcome","wedding"], plus:0, members:[{n:"James Williams", t:"a"}]},
@@ -535,6 +550,10 @@
   function selectParty(pi,person){
     const p=PARTIES[pi];
     currentParty=p;currentPerson=person;attendState={};memberState={};hideAllHints();input.value=person;
+    // Clear anything typed for a previously selected party.
+    document.getElementById('diet').value='';
+    document.getElementById('guestMessage').value='';
+    document.getElementById('submitError').style.display='none';
     document.getElementById('heroSection').style.display='none';
     document.getElementById('inviteBand').style.display='none';
     document.getElementById('searchSection').style.display='none';
@@ -603,8 +622,47 @@
     s.querySelector('.yn-btn.no').classList.toggle('active',!yes);
   }
 
-  function submitRSVP(){
-    if(!currentParty)return;
+  // Turns a stored answer into the wording written to the sheet.
+  // Events the party isn't invited to are recorded as an em dash.
+  function answerFor(ev,val){
+    if(!currentParty.events.includes(ev))return '—';
+    if(val===true)return 'Attending';
+    if(val===false)return 'Declined';
+    return 'No response';
+  }
+
+  // One object per person: the guest, their named party members, then any
+  // additional guests they named. Party members give a single yes/no that
+  // applies to every event their party is invited to; additional guests
+  // come with the person who RSVP'd, so they inherit that person's answers.
+  function buildPayload(){
+    const evs=['tea','rehearsal','welcome','wedding'];
+    const rowFor=(name,type,pick)=>{
+      const r={name:name,type:type};
+      evs.forEach(ev=>r[ev]=answerFor(ev,pick(ev)));
+      return r;
+    };
+    const me=currentParty.members.find(m=>m.n===currentPerson);
+    const guests=[rowFor(currentPerson, me&&me.t==='c'?'Child':'Adult', ev=>attendState[ev])];
+
+    currentOthers.forEach(m=>{
+      guests.push(rowFor(m.n, m.t==='c'?'Child':'Adult', ()=>memberState[m.n]));
+    });
+
+    for(let i=1;i<=currentParty.plus;i++){
+      const el=document.getElementById('plusone-'+i);
+      const nm=el&&el.value.trim();
+      if(nm) guests.push(rowFor(nm,'Additional guest',ev=>attendState[ev]));
+    }
+
+    const diet=(document.getElementById('diet').value||'').trim();
+    const note=(document.getElementById('guestMessage').value||'').trim();
+    if(guests.length){guests[0].diet=diet;guests[0].note=note;}
+
+    return {partyId:currentParty.id, submittedBy:currentPerson, guests:guests};
+  }
+
+  function showConfirmation(){
     const labels={rehearsal:'Rehearsal Dinner',welcome:'Welcome Party',tea:'Tea Ceremony',wedding:'The Wedding'};
     const order=['tea','rehearsal','welcome','wedding'];
     const evLines=order.filter(ev=>currentParty.events.includes(ev)).map(ev=>{
@@ -627,6 +685,36 @@
     const c=document.getElementById('confirmation');c.classList.add('visible');
     document.getElementById('confDetail').innerHTML=html;
     c.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+
+  async function submitRSVP(){
+    if(!currentParty)return;
+    const btn=document.getElementById('submitBtn');
+    const err=document.getElementById('submitError');
+    err.style.display='none';
+
+    // Until the Apps Script URL is filled in above, confirm locally so the
+    // page still works — nothing is saved in that state.
+    if(!RSVP_ENDPOINT){showConfirmation();return;}
+
+    const label=btn.textContent;
+    btn.disabled=true;btn.textContent='Sending…';
+    try{
+      // text/plain keeps this a "simple" request, so the browser skips the
+      // CORS preflight that Apps Script can't answer.
+      const res=await fetch(RSVP_ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify(buildPayload())
+      });
+      const out=await res.json();
+      if(!out.ok)throw new Error(out.error||'save failed');
+      showConfirmation();
+    }catch(e){
+      err.style.display='block';
+    }finally{
+      btn.disabled=false;btn.textContent=label;
+    }
   }
 
   function resetForm(){
