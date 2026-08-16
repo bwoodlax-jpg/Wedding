@@ -26,7 +26,7 @@
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);
-      font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+      font-size:20px;line-height:1.62;-webkit-font-smoothing:antialiased;}
 
     .script{font-family:'Pinyon Script',cursive;font-weight:400;}
     .eyebrow{font-family:'Cormorant',serif;font-weight:500;font-size:.72rem;
@@ -59,23 +59,23 @@
       padding:46px 26px;margin:34px 0 0;}
     .invite-band .you{font-family:'Pinyon Script',cursive;font-size:3.4rem;line-height:1;
       margin-bottom:16px;color:var(--on-green);}
-    .invite-band p{font-style:italic;font-weight:400;font-size:1.12rem;max-width:480px;
+    .invite-band p{font-weight:400;font-size:1.3rem;line-height:1.55;max-width:540px;
       margin:0 auto;color:var(--on-green);opacity:.95;}
 
     /* ── Layout ── */
     .main{max-width:600px;margin:0 auto;padding:44px 22px 100px;}
     .section-head{text-align:center;margin-bottom:30px;}
     .section-head .script{display:block;font-size:2.7rem;color:var(--green-deep);line-height:1;margin-bottom:6px;}
-    .section-head h2{font-family:'Cormorant',serif;font-weight:500;font-size:1.4rem;
+    .section-head h2{font-family:'Cormorant',serif;font-weight:500;font-size:1.55rem;
       letter-spacing:3px;text-transform:uppercase;color:var(--ink);}
-    .section-head p{font-style:italic;color:var(--ink-soft);max-width:430px;margin:10px auto 0;font-size:1.05rem;}
+    .section-head p{color:var(--ink-soft);max-width:480px;margin:10px auto 0;font-size:1.22rem;line-height:1.5;}
 
     /* ── Search ── */
     .search-wrap{position:relative;max-width:440px;margin:0 auto;}
     .search-input{width:100%;padding:16px 20px;font-family:'Cormorant Garamond',serif;font-size:1.2rem;
       text-align:center;border:1px solid var(--green-deep);border-radius:3px;background:var(--card);
       color:var(--ink);outline:none;transition:.25s;}
-    .search-input::placeholder{color:var(--ink-soft);opacity:.6;font-style:italic;}
+    .search-input::placeholder{color:var(--ink-soft);opacity:.6;}
     .search-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(154,165,78,.15);}
     .suggestion{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);
       border:1px solid var(--green-deep);border-radius:3px;z-index:50;overflow:hidden;
@@ -86,21 +86,21 @@
     .suggest-name{font-family:'Cormorant',serif;font-weight:600;font-size:1.15rem;letter-spacing:.5px;color:var(--ink);}
     .suggest-hint{font-family:'Cormorant',serif;font-weight:500;font-size:.64rem;letter-spacing:1.5px;
       text-transform:uppercase;color:var(--green-deep);}
-    .hint-msg{margin:14px auto 0;text-align:center;font-style:italic;color:var(--ink-soft);
-      font-size:1.05rem;max-width:430px;display:none;}
+    .hint-msg{margin:14px auto 0;text-align:center;color:var(--ink-soft);
+      font-size:1.18rem;max-width:460px;display:none;}
     .hint-msg b{font-style:normal;color:var(--green-deep);}
-    .not-found-box{max-width:440px;margin:14px auto 0;background:var(--paper);border:1px solid var(--line);
-      border-radius:3px;padding:18px 22px;text-align:center;font-style:italic;color:var(--ink-soft);
-      font-size:1.02rem;display:none;}
+    .not-found-box{max-width:460px;margin:14px auto 0;background:var(--paper);border:1px solid var(--line);
+      border-radius:3px;padding:20px 24px;text-align:center;color:var(--ink-soft);
+      font-size:1.14rem;line-height:1.5;display:none;}
     .not-found-box a{color:var(--green-deep);font-style:normal;font-weight:500;}
 
     /* ── Welcome card ── */
     .welcome-card{text-align:center;padding:26px 24px;margin-bottom:34px;background:var(--paper);
       border-radius:3px;display:none;}
-    .welcome-card .wname{font-family:'Cormorant',serif;font-weight:500;font-size:1.5rem;
+    .welcome-card .wname{font-family:'Cormorant',serif;font-weight:500;font-size:1.68rem;
       letter-spacing:1px;color:var(--ink);margin-bottom:6px;}
     .welcome-card .wname b{font-weight:600;color:var(--green-deep);}
-    .welcome-card .winfo{font-style:italic;color:var(--ink-soft);font-size:1.08rem;}
+    .welcome-card .winfo{color:var(--ink-soft);font-size:1.24rem;line-height:1.5;}
     .reset-link{margin-top:14px;display:inline-block;font-family:'Cormorant',serif;font-weight:500;
       font-size:.64rem;letter-spacing:2px;text-transform:uppercase;color:var(--green-deep);
       cursor:pointer;border-bottom:1px solid transparent;}
@@ -115,7 +115,7 @@
     .party-section{margin-bottom:26px;display:none;}.party-section.visible{display:block;}
     .party-section .eyebrow{display:block;text-align:center;margin-bottom:16px;}
     .party-member{margin-bottom:20px;}.party-member:last-child{margin-bottom:0;}
-    .pm-name{text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:1.12rem;
+    .pm-name{text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:1.24rem;
       letter-spacing:.5px;color:var(--ink);margin-bottom:9px;}
     .pm-tag{font-family:'Cormorant',serif;font-weight:500;font-size:.56rem;letter-spacing:1.5px;
       text-transform:uppercase;color:var(--green-deep);border:1px solid var(--line);border-radius:2px;
@@ -129,28 +129,28 @@
     .event-head .ev-when{font-family:'Cormorant',serif;font-weight:600;font-size:.62rem;letter-spacing:2.5px;
       text-transform:uppercase;color:var(--green-deep);margin-bottom:8px;}
     .event-head .ev-title{font-family:'Pinyon Script',cursive;font-size:2.5rem;color:var(--ink);line-height:1;}
-    .event-head .ev-loc{font-style:italic;color:var(--ink-soft);font-size:1rem;margin-top:6px;}
-    .attend-q{text-align:center;font-style:italic;color:var(--ink-soft);margin:18px 0 12px;font-size:1.02rem;}
+    .event-head .ev-loc{color:var(--ink-soft);font-size:1.14rem;line-height:1.5;margin-top:7px;}
+    .attend-q{text-align:center;color:var(--ink-soft);margin:18px 0 12px;font-size:1.2rem;}
     .yn-group{display:flex;gap:12px;max-width:440px;margin:0 auto;}
     .yn-btn{flex:1;padding:13px 8px;border:1px solid var(--line);border-radius:3px;background:var(--card);
-      font-family:'Cormorant',serif;font-weight:600;font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;
+      font-family:'Cormorant',serif;font-weight:600;font-size:.74rem;letter-spacing:1.5px;text-transform:uppercase;
       cursor:pointer;transition:.2s;color:var(--ink-soft);}
     .yn-btn:hover{border-color:var(--green-deep);color:var(--green-deep);}
     .yn-btn.yes.active{background:var(--green-deep);border-color:var(--green-deep);color:var(--on-green);}
-    .yn-btn.no.active{background:var(--paper);border-color:var(--line);color:var(--ink-soft);font-style:italic;}
+    .yn-btn.no.active{background:var(--paper);border-color:var(--line);color:var(--ink-soft);}
 
     /* ── General ── */
     .general-section{padding-top:28px;border-top:1px solid var(--line);margin-bottom:8px;display:none;}
     .general-section.visible{display:block;}
     .field-group{margin-bottom:18px;max-width:460px;margin-left:auto;margin-right:auto;}
     .field-group:last-child{margin-bottom:0;}
-    .field-label{display:block;text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:.62rem;
+    .field-label{display:block;text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:.7rem;
       letter-spacing:2px;text-transform:uppercase;color:var(--green-deep);margin-bottom:9px;}
-    input[type=text],textarea{width:100%;padding:12px 16px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+    input[type=text],textarea{width:100%;padding:13px 16px;font-family:'Cormorant Garamond',serif;font-size:1.2rem;
       border:1px solid var(--line);border-radius:3px;background:var(--card);color:var(--ink);outline:none;
       transition:.2s;text-align:center;}
     input[type=text]:focus,textarea:focus{border-color:var(--green-deep);}
-    input::placeholder,textarea::placeholder{color:var(--ink-soft);opacity:.55;font-style:italic;}
+    input::placeholder,textarea::placeholder{color:var(--ink-soft);opacity:.55;}
     textarea{resize:vertical;min-height:84px;text-align:left;line-height:1.5;}
 
     /* ── Submit ── */
@@ -163,12 +163,12 @@
     /* ── Confirmation ── */
     .confirmation{text-align:center;padding:58px 20px;display:none;}.confirmation.visible{display:block;}
     .conf-script{font-family:'Pinyon Script',cursive;font-size:3.6rem;color:var(--green-deep);line-height:1;margin-bottom:8px;}
-    .confirmation p{font-style:italic;color:var(--ink-soft);max-width:400px;margin:0 auto;font-size:1.1rem;}
+    .confirmation p{color:var(--ink-soft);max-width:450px;margin:0 auto;font-size:1.24rem;line-height:1.5;}
     .conf-detail{max-width:380px;margin:28px auto 0;text-align:left;background:var(--paper);
       border-radius:3px;padding:20px 24px;}
     .conf-detail .ch{display:block;text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:.6rem;
       letter-spacing:2px;text-transform:uppercase;color:var(--green-deep);margin-bottom:12px;}
-    .conf-detail .row{padding:4px 0;color:var(--ink);font-size:1.05rem;}
+    .conf-detail .row{padding:5px 0;color:var(--ink);font-size:1.18rem;}
     .return-btn{display:inline-block;margin-top:30px;padding:14px 42px;background:transparent;color:var(--green-deep);
       border:1px solid var(--green-deep);border-radius:3px;font-family:'Cormorant',serif;font-weight:600;font-size:.66rem;
       letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:.2s;}
@@ -362,29 +362,29 @@
     {id:"P013", events:["rehearsal","tea","welcome","wedding"], plus:1, members:[{n:"Isabel Wood", t:"a"}]},
     {id:"P014", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Turner Wood", t:"a"}, {n:"Ashley Wood", t:"a"}]},
     {id:"P015", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Tom Wood", t:"a"}, {n:"Gwendolyn Wood", t:"a"}]},
-    {id:"P016", events:["welcome","wedding"], plus:0, members:[{n:"Kyle Mackinen", t:"a"}, {n:"Emily Mackinen", t:"a"}, {n:"Teddy Mackinen", t:"c"}]},
-    {id:"P017", events:["welcome","wedding"], plus:0, members:[{n:"Ricky Freeman", t:"a"}, {n:"Suzzane Freeman", t:"a"}]},
-    {id:"P018", events:["welcome","wedding"], plus:0, members:[{n:"Dan Clark", t:"a"}, {n:"Carrie Clark", t:"a"}, {n:"Caden Clark", t:"a"}, {n:"Colton Clark", t:"c"}]},
-    {id:"P019", events:["welcome","wedding"], plus:0, members:[{n:"Patrica McLaurin", t:"a"}]},
-    {id:"P020", events:["welcome","wedding"], plus:0, members:[{n:"Allen McLaurin", t:"a"}, {n:"Jane McLaurin", t:"a"}]},
+    {id:"P016", events:["rehearsal","welcome","wedding"], plus:0, members:[{n:"Kyle Mackinen", t:"a"}, {n:"Emily Mackinen", t:"a"}, {n:"Teddy Mackinen", t:"c"}]},
+    {id:"P017", events:["rehearsal","welcome","wedding"], plus:0, members:[{n:"Ricky Freeman", t:"a"}, {n:"Suzanne Freeman", t:"a"}]},
+    {id:"P018", events:["rehearsal","welcome","wedding"], plus:0, members:[{n:"Dan Clark", t:"a"}, {n:"Carrie Clark", t:"a"}, {n:"Caden Clark", t:"a"}, {n:"Colton Clark", t:"c"}]},
+    {id:"P019", events:["welcome","wedding"], plus:0, members:[{n:"Patricia McLaurin", t:"a"}]},
+    {id:"P020", events:["rehearsal","welcome","wedding"], plus:0, members:[{n:"Allen McLaurin", t:"a"}, {n:"Jane McLaurin", t:"a"}]},
     {id:"P021", events:["welcome","wedding"], plus:0, members:[{n:"David McLaurin", t:"a"}, {n:"Alexandra McLaurin", t:"a", k:["Ally"]}]},
     {id:"P022", events:["welcome","wedding"], plus:0, members:[{n:"John McLaurin", t:"a"}, {n:"Autumn Lauzon", t:"a"}]},
     {id:"P023", events:["welcome","wedding"], plus:0, members:[{n:"Jenny Mahorney", t:"a"}, {n:"Thomas Mahorney", t:"c"}, {n:"Cora Mahorney", t:"c"}, {n:"Lillian Mahorney", t:"c"}, {n:"Jonathan Mahorney", t:"c"}]},
     {id:"P024", events:["welcome","wedding"], plus:0, members:[{n:"Kevin Dart", t:"a"}, {n:"Jane Dart", t:"a"}, {n:"Louisa Dart", t:"c"}, {n:"Richard Dart", t:"c"}]},
-    {id:"P025", events:["welcome","wedding"], plus:1, members:[{n:"Mariane Burris", t:"a"}]},
+    {id:"P025", events:["welcome","wedding"], plus:1, members:[{n:"Marianne Burris", t:"a"}]},
     {id:"P026", events:["welcome","wedding"], plus:0, members:[{n:"Bryan Goodwin", t:"a"}, {n:"Cindy Goodwin", t:"a"}, {n:"Ophelia Goodwin", t:"c"}]},
-    {id:"P027", events:["welcome","wedding"], plus:0, members:[{n:"Ray Burris", t:"a"}, {n:"Jeanene Burris", t:"a"}]},
+    {id:"P027", events:["rehearsal","welcome","wedding"], plus:0, members:[{n:"Ray Burris", t:"a"}, {n:"Jeanene Burris", t:"a"}]},
     {id:"P028", events:["welcome","wedding"], plus:0, members:[{n:"William Cannon Sr.", t:"a"}, {n:"Stephanie Cannon", t:"a"}, {n:"Ella Cannon", t:"c"}, {n:"William Cannon Jr.", t:"c"}, {n:"Caroline Cannon", t:"c"}]},
     {id:"P029", events:["welcome","wedding"], plus:0, members:[{n:"Wes Cannon", t:"a"}, {n:"Emily Cannon", t:"a"}, {n:"Anna Cannon", t:"c"}, {n:"Laura Cannon", t:"c"}]},
-    {id:"P030", events:["welcome","wedding"], plus:0, members:[{n:"Joeseph Murphy", t:"a"}, {n:"Cathrine Murphy", t:"a"}, {n:"Allison Murphy", t:"a"}, {n:"Rachel Murphy", t:"a"}, {n:"Lucy Murphy", t:"c"}, {n:"Juliet Murphy", t:"c"}]},
-    {id:"P031", events:["welcome","wedding"], plus:0, members:[{n:"Bruce Cannon", t:"a"}, {n:"Mariane Cannon", t:"a"}]},
-    {id:"P032", events:["tea","welcome","wedding"], plus:0, members:[{n:"Ashby Watts", t:"a"}, {n:"Merrill Watts", t:"a"}]},
+    {id:"P030", events:["welcome","wedding"], plus:0, members:[{n:"Joseph Murphy", t:"a"}, {n:"Catherine Murphy", t:"a"}, {n:"Allison Murphy", t:"a"}, {n:"Rachel Murphy", t:"a"}, {n:"Lucy Murphy", t:"c"}, {n:"Juliet Murphy", t:"c"}]},
+    {id:"P031", events:["welcome","wedding"], plus:0, members:[{n:"Bruce Cannon", t:"a"}, {n:"Marianne Cannon", t:"a"}]},
+    {id:"P032", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Ashby Watts", t:"a"}, {n:"Merrill Watts", t:"a"}]},
     {id:"P033", events:["welcome","wedding"], plus:1, members:[{n:"Ash Watts", t:"a"}]},
     {id:"P034", events:["welcome","wedding"], plus:1, members:[{n:"Clark Watts", t:"a"}]},
-    {id:"P035", events:["welcome","wedding"], plus:1, members:[{n:"Carlise Watts", t:"a"}]},
-    {id:"P036", events:["tea","welcome","wedding"], plus:0, members:[{n:"Robin Williams", t:"a"}]},
+    {id:"P035", events:["welcome","wedding"], plus:1, members:[{n:"Carlisle Watts", t:"a"}]},
+    {id:"P036", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Robin Williams", t:"a"}]},
     {id:"P037", events:["welcome","wedding"], plus:0, members:[{n:"Jordan Williams", t:"a"}, {n:"Olivia Williams", t:"a"}]},
-    {id:"P038", events:["welcome","wedding"], plus:1, members:[{n:"Madylen Williams", t:"a"}]},
+    {id:"P038", events:["welcome","wedding"], plus:1, members:[{n:"Madeleine Williams", t:"a"}]},
     {id:"P039", events:["welcome","wedding"], plus:1, members:[{n:"Emily Williams", t:"a"}]},
     {id:"P040", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Ryan Gehsmann", t:"a"}, {n:"Kelsey Gehsmann", t:"a"}, {n:"Caison Gehsmann", t:"c"}, {n:"Riley Gehsmann", t:"c"}]},
     {id:"P041", events:["welcome","wedding"], plus:0, members:[{n:"Kurt Gehsmann", t:"a"}, {n:"Jackie Gehsmann", t:"a"}]},
@@ -403,19 +403,19 @@
     {id:"P054", events:["welcome","wedding"], plus:1, members:[{n:"Patrick Higgins", t:"a"}]},
     {id:"P055", events:["welcome","wedding"], plus:0, members:[{n:"James Williams", t:"a"}]},
     {id:"P056", events:["welcome","wedding"], plus:0, members:[{n:"Keith Willis", t:"a"}, {n:"Lori Willis", t:"a"}]},
-    {id:"P057", events:["welcome","wedding"], plus:0, members:[{n:"Micheal Westbrook", t:"a"}, {n:"Lee Westbrook", t:"a"}]},
+    {id:"P057", events:["welcome","wedding"], plus:0, members:[{n:"Michael Westbrook", t:"a"}, {n:"Lee Westbrook", t:"a"}]},
     {id:"P100", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Diem Ngo", t:"a"}, {n:"Long Ngo", t:"a"}]},
     {id:"P101", events:["rehearsal","tea","welcome","wedding"], plus:1, members:[{n:"Miley Ngo", t:"a"}]},
     {id:"P102", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Sara Ho", t:"a"}, {n:"Hieu Ngo", t:"a"}]},
     {id:"P103", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Sarah Kennardi", t:"a"}, {n:"Ken Kennardi", t:"a"}, {n:"Keanu Kennardi", t:"c"}]},
     {id:"P104", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Jasmine Lim", t:"a"}, {n:"Danny Nguyen", t:"a"}]},
-    {id:"P105", events:["welcome","wedding"], plus:1, members:[{n:"Khuong Ho", t:"a"}]},
+    {id:"P105", events:["rehearsal","welcome","wedding"], plus:1, members:[{n:"Khuong Ho", t:"a"}]},
     {id:"P106", events:["tea","welcome","wedding"], plus:1, members:[{n:"Hoang Ho", t:"a"}, {n:"Phuong Ho", t:"a"}, {n:"Son Ho", t:"a"}, {n:"Minh Ho", t:"c"}]},
     {id:"P107", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Yi Tran", t:"a"}, {n:"Peter Ly", t:"a"}]},
-    {id:"P108", events:["welcome","wedding"], plus:1, members:[{n:"Elaine Dang", t:"a"}]},
-    {id:"P109", events:["welcome","wedding"], plus:0, members:[{n:"Hannah Dickinson", t:"a"}, {n:"Davy Bunton", t:"a"}]},
+    {id:"P108", events:["rehearsal","welcome","wedding"], plus:1, members:[{n:"Elaine Dang", t:"a"}]},
+    {id:"P109", events:["rehearsal","welcome","wedding"], plus:0, members:[{n:"Hannah Dickinson", t:"a"}, {n:"Davy Bunton", t:"a"}]},
     {id:"P110", events:["welcome","wedding"], plus:0, members:[{n:"Christina Cheng", t:"a"}, {n:"Roger Dean", t:"a"}]},
-    {id:"P111", events:["welcome","wedding"], plus:1, members:[{n:"Tram Nguyen", t:"a"}]},
+    {id:"P111", events:["rehearsal","welcome","wedding"], plus:1, members:[{n:"Tram Nguyen", t:"a"}]},
     {id:"P112", events:["welcome","wedding"], plus:1, members:[{n:"Nicole Robinson", t:"a", k:["Nikki Robinson"]}]},
     {id:"P113", events:["welcome","wedding"], plus:1, members:[{n:"Christina Ho", t:"a"}]},
     {id:"P114", events:["tea","welcome","wedding"], plus:1, members:[{n:"Brandon Ho", t:"a"}, {n:"Hieu Ho", t:"a"}, {n:"Nicole Ho", t:"a"}, {n:"Ryan Ho", t:"a"}, {n:"Matthew Ho", t:"a"}]},
@@ -439,7 +439,7 @@
     {id:"P132", events:["welcome","wedding"], plus:0, members:[{n:"Diana Scovile", t:"a"}, {n:"John Scovile", t:"a"}]},
     {id:"P134", events:["welcome","wedding"], plus:1, members:[{n:"Ryan Ciamillo", t:"a"}]},
     {id:"P135", events:["welcome","wedding"], plus:1, members:[{n:"Van Ciamillo", t:"a"}]},
-    {id:"P136", events:["tea","welcome","wedding"], plus:0, members:[{n:"Mimi McGinn", t:"a"}]},
+    {id:"P136", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Mimi McGinn", t:"a"}]},
     {id:"P137", events:["welcome","wedding"], plus:0, members:[{n:"Jack Richardson", t:"a"}, {n:"Gail Richardson", t:"a"}]},
   ];
 
