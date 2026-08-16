@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quynh & Benjamin | RSVP</title>
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
   <style>
     /* ════════════════════════════════════════════════════════════════
-       PALETTE — sampled from the couple's Canva site (light & botanical):
-       warm cream base · avocado green · forest green accents · olive ink.
+       PALETTE — matched to the couple's wedding site:
+       white base · deep forest green text & accents · soft sage panels.
+       Type: Cormorant Garamond throughout, Pinyon Script for display.
        ════════════════════════════════════════════════════════════════ */
     :root{
       --cream:      #ffffff;  /* page background — white        */
@@ -28,17 +29,17 @@
       font-size:20px;line-height:1.62;-webkit-font-smoothing:antialiased;}
 
     .script{font-family:'Pinyon Script',cursive;font-weight:400;}
-    .eyebrow{font-family:'Cormorant',serif;font-weight:500;font-size:.72rem;
+    .eyebrow{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.72rem;
       letter-spacing:4px;text-transform:uppercase;color:var(--green-deep);}
 
     /* ── Mock banner ── */
     .mock-banner{background:var(--green-deep);color:var(--on-green);text-align:center;
-      padding:7px 16px;font-family:'Cormorant',serif;font-size:.8rem;letter-spacing:1.5px;
+      padding:7px 16px;font-family:'Cormorant Garamond',serif;font-size:.8rem;letter-spacing:1.5px;
       text-transform:uppercase;}
 
     /* ── Top bar ── */
     .topbar{text-align:center;padding:14px;border-bottom:1px solid var(--line);}
-    .topbar a{color:var(--green-deep);text-decoration:none;font-family:'Cormorant',serif;
+    .topbar a{color:var(--green-deep);text-decoration:none;font-family:'Cormorant Garamond',serif;
       font-weight:500;font-size:.68rem;letter-spacing:3px;text-transform:uppercase;}
     .topbar a:hover{color:var(--ink);}
 
@@ -49,7 +50,7 @@
       color:var(--green-deep);font-weight:400;margin:6px 0;}
     .hero h1 .amp{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
       font-size:.58em;vertical-align:.06em;padding:0 .04em;}
-    .hero .meta{margin-top:22px;font-family:'Cormorant',serif;font-weight:500;font-size:.95rem;
+    .hero .meta{margin-top:22px;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.95rem;
       letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-soft);line-height:2.05;}
     .flourish{display:block;margin:24px auto 0;width:min(340px,78%);height:auto;color:var(--green);}
 
@@ -65,7 +66,7 @@
     .main{max-width:600px;margin:0 auto;padding:44px 22px 100px;}
     .section-head{text-align:center;margin-bottom:30px;}
     .section-head .script{display:block;font-size:2.7rem;color:var(--green-deep);line-height:1;margin-bottom:6px;}
-    .section-head h2{font-family:'Cormorant',serif;font-weight:500;font-size:1.55rem;
+    .section-head h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.55rem;
       letter-spacing:3px;text-transform:uppercase;color:var(--ink);}
     .section-head p{color:var(--ink-soft);max-width:480px;margin:10px auto 0;font-size:1.22rem;line-height:1.5;}
 
@@ -82,8 +83,8 @@
     .suggestion-item{padding:15px 20px;cursor:pointer;display:flex;justify-content:space-between;
       align-items:center;transition:background .15s;}
     .suggestion-item:hover{background:var(--paper);}
-    .suggest-name{font-family:'Cormorant',serif;font-weight:600;font-size:1.15rem;letter-spacing:.5px;color:var(--ink);}
-    .suggest-hint{font-family:'Cormorant',serif;font-weight:500;font-size:.64rem;letter-spacing:1.5px;
+    .suggest-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;letter-spacing:.5px;color:var(--ink);}
+    .suggest-hint{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.64rem;letter-spacing:1.5px;
       text-transform:uppercase;color:var(--green-deep);}
     .hint-msg{margin:14px auto 0;text-align:center;color:var(--ink-soft);
       font-size:1.18rem;max-width:460px;display:none;}
@@ -96,11 +97,11 @@
     /* ── Welcome card ── */
     .welcome-card{text-align:center;padding:26px 24px;margin-bottom:34px;background:var(--paper);
       border-radius:3px;display:none;}
-    .welcome-card .wname{font-family:'Cormorant',serif;font-weight:500;font-size:1.68rem;
+    .welcome-card .wname{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.68rem;
       letter-spacing:1px;color:var(--ink);margin-bottom:6px;}
     .welcome-card .wname b{font-weight:600;color:var(--green-deep);}
     .welcome-card .winfo{color:var(--ink-soft);font-size:1.24rem;line-height:1.5;}
-    .reset-link{margin-top:14px;display:inline-block;font-family:'Cormorant',serif;font-weight:500;
+    .reset-link{margin-top:14px;display:inline-block;font-family:'Cormorant Garamond',serif;font-weight:500;
       font-size:.64rem;letter-spacing:2px;text-transform:uppercase;color:var(--green-deep);
       cursor:pointer;border-bottom:1px solid transparent;}
     .reset-link:hover{border-bottom-color:var(--green-deep);}
@@ -114,9 +115,9 @@
     .party-section{margin-bottom:26px;display:none;}.party-section.visible{display:block;}
     .party-section .eyebrow{display:block;text-align:center;margin-bottom:16px;}
     .party-member{margin-bottom:20px;}.party-member:last-child{margin-bottom:0;}
-    .pm-name{text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:1.24rem;
+    .pm-name{text-align:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.24rem;
       letter-spacing:.5px;color:var(--ink);margin-bottom:9px;}
-    .pm-tag{font-family:'Cormorant',serif;font-weight:500;font-size:.56rem;letter-spacing:1.5px;
+    .pm-tag{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.56rem;letter-spacing:1.5px;
       text-transform:uppercase;color:var(--green-deep);border:1px solid var(--line);border-radius:2px;
       padding:1px 6px;margin-left:6px;vertical-align:middle;}
 
@@ -125,14 +126,14 @@
     .form-section.visible{display:block;}
     .form-section.first{border-top:none;}
     .event-head{text-align:center;}
-    .event-head .ev-when{font-family:'Cormorant',serif;font-weight:600;font-size:.74rem;letter-spacing:2px;
+    .event-head .ev-when{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.74rem;letter-spacing:2px;
       text-transform:uppercase;color:var(--green-deep);margin-bottom:8px;}
     .event-head .ev-title{font-family:'Pinyon Script',cursive;font-size:2.5rem;color:var(--ink);line-height:1;}
     .event-head .ev-loc{color:var(--ink-soft);font-size:1.14rem;line-height:1.5;margin-top:7px;}
     .attend-q{text-align:center;color:var(--ink-soft);margin:18px 0 12px;font-size:1.2rem;}
     .yn-group{display:flex;gap:12px;max-width:440px;margin:0 auto;}
     .yn-btn{flex:1;padding:13px 8px;border:1px solid var(--line);border-radius:3px;background:var(--card);
-      font-family:'Cormorant',serif;font-weight:600;font-size:.74rem;letter-spacing:1.5px;text-transform:uppercase;
+      font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.74rem;letter-spacing:1.5px;text-transform:uppercase;
       cursor:pointer;transition:.2s;color:var(--ink-soft);}
     .yn-btn:hover{border-color:var(--green-deep);color:var(--green-deep);}
     .yn-btn.yes.active{background:var(--green-deep);border-color:var(--green-deep);color:var(--on-green);}
@@ -143,7 +144,7 @@
     .general-section.visible{display:block;}
     .field-group{margin-bottom:18px;max-width:460px;margin-left:auto;margin-right:auto;}
     .field-group:last-child{margin-bottom:0;}
-    .field-label{display:block;text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:.82rem;
+    .field-label{display:block;text-align:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.82rem;
       letter-spacing:.5px;text-transform:uppercase;color:var(--green-deep);margin-bottom:9px;}
     input[type=text],textarea{width:100%;padding:13px 16px;font-family:'Cormorant Garamond',serif;font-size:1.2rem;
       border:1px solid var(--line);border-radius:3px;background:var(--card);color:var(--ink);outline:none;
@@ -154,7 +155,7 @@
 
     /* ── Submit ── */
     .submit-btn{display:none;margin:30px auto 0;padding:15px 52px;background:var(--green-deep);color:var(--on-green);
-      border:none;border-radius:3px;font-family:'Cormorant',serif;font-weight:600;font-size:.7rem;letter-spacing:3px;
+      border:none;border-radius:3px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.7rem;letter-spacing:3px;
       text-transform:uppercase;cursor:pointer;transition:.2s;}
     .submit-btn:hover{background:var(--green-darker);}
     .submit-btn.visible{display:block;}
@@ -165,16 +166,16 @@
     .confirmation p{color:var(--ink-soft);max-width:450px;margin:0 auto;font-size:1.24rem;line-height:1.5;}
     .conf-detail{max-width:380px;margin:28px auto 0;text-align:left;background:var(--paper);
       border-radius:3px;padding:20px 24px;}
-    .conf-detail .ch{display:block;text-align:center;font-family:'Cormorant',serif;font-weight:600;font-size:.6rem;
+    .conf-detail .ch{display:block;text-align:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.6rem;
       letter-spacing:2px;text-transform:uppercase;color:var(--green-deep);margin-bottom:12px;}
     .conf-detail .row{padding:5px 0;color:var(--ink);font-size:1.18rem;}
     .return-btn{display:inline-block;margin-top:30px;padding:14px 42px;background:transparent;color:var(--green-deep);
-      border:1px solid var(--green-deep);border-radius:3px;font-family:'Cormorant',serif;font-weight:600;font-size:.66rem;
+      border:1px solid var(--green-deep);border-radius:3px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.66rem;
       letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:.2s;}
     .return-btn:hover{background:var(--green-deep);color:var(--on-green);}
 
     footer{text-align:center;padding:30px;background:var(--green);color:var(--on-green);
-      font-family:'Cormorant',serif;font-weight:500;font-size:.64rem;letter-spacing:2.5px;text-transform:uppercase;}
+      font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.64rem;letter-spacing:2.5px;text-transform:uppercase;}
 
     @media(max-width:460px){
       .hero h1{font-size:3.6rem;}
