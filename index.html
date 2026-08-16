@@ -272,6 +272,20 @@
       <div id="plusOneFields"></div>
     </div>
 
+    <!-- TODO: confirm rehearsal dinner date, time & venue before launch -->
+    <div class="form-section first" id="event-rehearsal">
+      <div class="event-head">
+        <div class="ev-when">Date &amp; time to be confirmed</div>
+        <div class="ev-title">Rehearsal Dinner</div>
+        <div class="ev-loc">An intimate dinner with our closest family &amp; wedding party</div>
+      </div>
+      <div class="attend-q">Will you join us?</div>
+      <div class="yn-group">
+        <button class="yn-btn yes" onclick="toggleAttend('rehearsal',true)">Joyfully accepts</button>
+        <button class="yn-btn no" onclick="toggleAttend('rehearsal',false)">Regretfully declines</button>
+      </div>
+    </div>
+
     <div class="form-section first" id="event-tea">
       <div class="event-head">
         <div class="ev-when">Friday &middot; August 27</div>
@@ -344,10 +358,10 @@
   // NOTE: event gating defaults to all three where the sheet's Welcome/Tea/Wedding
   // columns were still blank — only an explicit "No" excludes an event.
   const PARTIES = [
-    {id:"P012", events:["welcome","tea","wedding"], plus:0, members:[{n:"Thomas Wood", t:"a"}, {n:"Gerardo Hernandez-Diaz", t:"a"}]},
-    {id:"P013", events:["welcome","tea","wedding"], plus:1, members:[{n:"Isabel Wood", t:"a"}]},
-    {id:"P014", events:["welcome","tea","wedding"], plus:0, members:[{n:"Turner Wood", t:"a"}, {n:"Ashley Wood", t:"a"}]},
-    {id:"P015", events:["welcome","tea","wedding"], plus:0, members:[{n:"Tom Wood", t:"a"}, {n:"Gwendolyn Wood", t:"a"}]},
+    {id:"P012", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Thomas Wood", t:"a"}, {n:"Gerardo Hernandez-Diaz", t:"a"}]},
+    {id:"P013", events:["rehearsal","tea","welcome","wedding"], plus:1, members:[{n:"Isabel Wood", t:"a"}]},
+    {id:"P014", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Turner Wood", t:"a"}, {n:"Ashley Wood", t:"a"}]},
+    {id:"P015", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Tom Wood", t:"a"}, {n:"Gwendolyn Wood", t:"a"}]},
     {id:"P016", events:["welcome","wedding"], plus:0, members:[{n:"Kyle Mackinen", t:"a"}, {n:"Emily Mackinen", t:"a"}, {n:"Teddy Mackinen", t:"c"}]},
     {id:"P017", events:["welcome","wedding"], plus:0, members:[{n:"Ricky Freeman", t:"a"}, {n:"Suzzane Freeman", t:"a"}]},
     {id:"P018", events:["welcome","wedding"], plus:0, members:[{n:"Dan Clark", t:"a"}, {n:"Carrie Clark", t:"a"}, {n:"Caden Clark", t:"a"}, {n:"Colton Clark", t:"c"}]},
@@ -364,24 +378,24 @@
     {id:"P029", events:["welcome","wedding"], plus:0, members:[{n:"Wes Cannon", t:"a"}, {n:"Emily Cannon", t:"a"}, {n:"Anna Cannon", t:"c"}, {n:"Laura Cannon", t:"c"}]},
     {id:"P030", events:["welcome","wedding"], plus:0, members:[{n:"Joeseph Murphy", t:"a"}, {n:"Cathrine Murphy", t:"a"}, {n:"Allison Murphy", t:"a"}, {n:"Rachel Murphy", t:"a"}, {n:"Lucy Murphy", t:"c"}, {n:"Juliet Murphy", t:"c"}]},
     {id:"P031", events:["welcome","wedding"], plus:0, members:[{n:"Bruce Cannon", t:"a"}, {n:"Mariane Cannon", t:"a"}]},
-    {id:"P032", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ashby Watts", t:"a"}, {n:"Merrill Watts", t:"a"}]},
+    {id:"P032", events:["tea","welcome","wedding"], plus:0, members:[{n:"Ashby Watts", t:"a"}, {n:"Merrill Watts", t:"a"}]},
     {id:"P033", events:["welcome","wedding"], plus:1, members:[{n:"Ash Watts", t:"a"}]},
     {id:"P034", events:["welcome","wedding"], plus:1, members:[{n:"Clark Watts", t:"a"}]},
     {id:"P035", events:["welcome","wedding"], plus:1, members:[{n:"Carlise Watts", t:"a"}]},
-    {id:"P036", events:["welcome","tea","wedding"], plus:0, members:[{n:"Robin Williams", t:"a"}]},
+    {id:"P036", events:["tea","welcome","wedding"], plus:0, members:[{n:"Robin Williams", t:"a"}]},
     {id:"P037", events:["welcome","wedding"], plus:0, members:[{n:"Jordan Williams", t:"a"}, {n:"Olivia Williams", t:"a"}]},
     {id:"P038", events:["welcome","wedding"], plus:1, members:[{n:"Madylen Williams", t:"a"}]},
     {id:"P039", events:["welcome","wedding"], plus:1, members:[{n:"Emily Williams", t:"a"}]},
-    {id:"P040", events:["welcome","tea","wedding"], plus:0, members:[{n:"Ryan Gehsmann", t:"a"}, {n:"Kelsey Gehsmann", t:"a"}, {n:"Caison Gehsmann", t:"c"}, {n:"Riley Gehsmann", t:"c"}]},
+    {id:"P040", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Ryan Gehsmann", t:"a"}, {n:"Kelsey Gehsmann", t:"a"}, {n:"Caison Gehsmann", t:"c"}, {n:"Riley Gehsmann", t:"c"}]},
     {id:"P041", events:["welcome","wedding"], plus:0, members:[{n:"Kurt Gehsmann", t:"a"}, {n:"Jackie Gehsmann", t:"a"}]},
     {id:"P042", events:["welcome","wedding"], plus:0, members:[{n:"Greg Gehsmann", t:"a"}]},
     {id:"P043", events:["welcome","wedding"], plus:0, members:[{n:"Kevin Gehsmann", t:"a"}]},
-    {id:"P044", events:["welcome","tea","wedding"], plus:0, members:[{n:"Nasim Abu-Hashem", t:"a"}, {n:"Loaa Abu-Hashem", t:"a"}]},
-    {id:"P045", events:["welcome","tea","wedding"], plus:1, members:[{n:"Kyle Satterfield", t:"a"}]},
-    {id:"P046", events:["welcome","tea","wedding"], plus:1, members:[{n:"Parker Hendricks", t:"a"}]},
+    {id:"P044", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Nasim Abu-Hashem", t:"a"}, {n:"Loaa Abu-Hashem", t:"a"}]},
+    {id:"P045", events:["rehearsal","tea","welcome","wedding"], plus:1, members:[{n:"Kyle Satterfield", t:"a"}]},
+    {id:"P046", events:["rehearsal","tea","welcome","wedding"], plus:1, members:[{n:"Parker Hendricks", t:"a"}]},
     {id:"P047", events:["welcome","wedding"], plus:1, members:[{n:"Jonathan Muse", t:"a"}]},
-    {id:"P048", events:["welcome","wedding"], plus:1, members:[{n:"Ridge Bell", t:"a"}]},
-    {id:"P049", events:["welcome","tea","wedding"], plus:0, members:[{n:"Evan Heiman", t:"a"}, {n:"Vivian Nguyen", t:"a"}, {n:"Julia Heiman", t:"c"}]},
+    {id:"P048", events:["rehearsal","welcome","wedding"], plus:1, members:[{n:"Ridge Bell", t:"a"}]},
+    {id:"P049", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Evan Heiman", t:"a"}, {n:"Vivian Nguyen", t:"a"}, {n:"Julia Heiman", t:"c"}]},
     {id:"P050", events:["welcome","wedding"], plus:1, members:[{n:"Bert Exum", t:"a"}]},
     {id:"P051", events:["welcome","wedding"], plus:0, members:[{n:"Robert Exum", t:"a"}]},
     {id:"P052", events:["welcome","wedding"], plus:0, members:[{n:"Eli Exum", t:"a"}, {n:"Taylor Exum", t:"a"}]},
@@ -390,24 +404,24 @@
     {id:"P055", events:["welcome","wedding"], plus:0, members:[{n:"James Williams", t:"a"}]},
     {id:"P056", events:["welcome","wedding"], plus:0, members:[{n:"Keith Willis", t:"a"}, {n:"Lori Willis", t:"a"}]},
     {id:"P057", events:["welcome","wedding"], plus:0, members:[{n:"Micheal Westbrook", t:"a"}, {n:"Lee Westbrook", t:"a"}]},
-    {id:"P100", events:["welcome","tea","wedding"], plus:0, members:[{n:"Diem Ngo", t:"a"}, {n:"Long Ngo", t:"a"}]},
-    {id:"P101", events:["welcome","tea","wedding"], plus:1, members:[{n:"Miley Ngo", t:"a"}]},
-    {id:"P102", events:["welcome","tea","wedding"], plus:0, members:[{n:"Sara Ho", t:"a"}, {n:"Hieu Ngo", t:"a"}]},
-    {id:"P103", events:["welcome","tea","wedding"], plus:0, members:[{n:"Sarah Kennardi", t:"a"}, {n:"Ken Kennardi", t:"a"}, {n:"Keanu Kennardi", t:"c"}]},
-    {id:"P104", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jasmine Lim", t:"a"}, {n:"Danny Nguyen", t:"a"}]},
+    {id:"P100", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Diem Ngo", t:"a"}, {n:"Long Ngo", t:"a"}]},
+    {id:"P101", events:["rehearsal","tea","welcome","wedding"], plus:1, members:[{n:"Miley Ngo", t:"a"}]},
+    {id:"P102", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Sara Ho", t:"a"}, {n:"Hieu Ngo", t:"a"}]},
+    {id:"P103", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Sarah Kennardi", t:"a"}, {n:"Ken Kennardi", t:"a"}, {n:"Keanu Kennardi", t:"c"}]},
+    {id:"P104", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Jasmine Lim", t:"a"}, {n:"Danny Nguyen", t:"a"}]},
     {id:"P105", events:["welcome","wedding"], plus:1, members:[{n:"Khuong Ho", t:"a"}]},
-    {id:"P106", events:["welcome","tea","wedding"], plus:1, members:[{n:"Hoang Ho", t:"a"}, {n:"Phuong Ho", t:"a"}, {n:"Son Ho", t:"a"}, {n:"Minh Ho", t:"c"}]},
-    {id:"P107", events:["welcome","tea","wedding"], plus:0, members:[{n:"Yi Tran", t:"a"}, {n:"Peter Ly", t:"a"}]},
+    {id:"P106", events:["tea","welcome","wedding"], plus:1, members:[{n:"Hoang Ho", t:"a"}, {n:"Phuong Ho", t:"a"}, {n:"Son Ho", t:"a"}, {n:"Minh Ho", t:"c"}]},
+    {id:"P107", events:["rehearsal","tea","welcome","wedding"], plus:0, members:[{n:"Yi Tran", t:"a"}, {n:"Peter Ly", t:"a"}]},
     {id:"P108", events:["welcome","wedding"], plus:1, members:[{n:"Elaine Dang", t:"a"}]},
     {id:"P109", events:["welcome","wedding"], plus:0, members:[{n:"Hannah Dickinson", t:"a"}, {n:"Davy Bunton", t:"a"}]},
     {id:"P110", events:["welcome","wedding"], plus:0, members:[{n:"Christina Cheng", t:"a"}, {n:"Roger Dean", t:"a"}]},
     {id:"P111", events:["welcome","wedding"], plus:1, members:[{n:"Tram Nguyen", t:"a"}]},
     {id:"P112", events:["welcome","wedding"], plus:1, members:[{n:"Nicole Robinson", t:"a", k:["Nikki Robinson"]}]},
     {id:"P113", events:["welcome","wedding"], plus:1, members:[{n:"Christina Ho", t:"a"}]},
-    {id:"P114", events:["welcome","tea","wedding"], plus:1, members:[{n:"Brandon Ho", t:"a"}, {n:"Hieu Ho", t:"a"}, {n:"Nicole Ho", t:"a"}, {n:"Ryan Ho", t:"a"}, {n:"Matthew Ho", t:"a"}]},
-    {id:"P115", events:["welcome","tea","wedding"], plus:0, members:[{n:"Karla Nguyen", t:"a", k:["Hoa Xuan Ho"]}, {n:"Monge Thongsithavong", t:"a"}, {n:"Logan Thongsithavong", t:"a"}]},
-    {id:"P116", events:["welcome","tea","wedding"], plus:0, members:[{n:"Hanh Ho", t:"a"}, {n:"Ho Canh Bang", t:"a"}]},
-    {id:"P117", events:["welcome","tea","wedding"], plus:1, members:[{n:"Tan Ngoc Ho", t:"a"}, {n:"Trung Ho", t:"a"}, {n:"Nga Nguyen", t:"a"}]},
+    {id:"P114", events:["tea","welcome","wedding"], plus:1, members:[{n:"Brandon Ho", t:"a"}, {n:"Hieu Ho", t:"a"}, {n:"Nicole Ho", t:"a"}, {n:"Ryan Ho", t:"a"}, {n:"Matthew Ho", t:"a"}]},
+    {id:"P115", events:["tea","welcome","wedding"], plus:0, members:[{n:"Karla Nguyen", t:"a", k:["Hoa Xuan Ho"]}, {n:"Monge Thongsithavong", t:"a"}, {n:"Logan Thongsithavong", t:"a"}]},
+    {id:"P116", events:["tea","welcome","wedding"], plus:0, members:[{n:"Hanh Ho", t:"a"}, {n:"Ho Canh Bang", t:"a"}]},
+    {id:"P117", events:["tea","welcome","wedding"], plus:1, members:[{n:"Tan Ngoc Ho", t:"a"}, {n:"Trung Ho", t:"a"}, {n:"Nga Nguyen", t:"a"}]},
     {id:"P118", events:["welcome","wedding"], plus:1, members:[{n:"Trang Ho", t:"a"}, {n:"Linh Ho", t:"a"}, {n:"Tram Ho", t:"a"}]},
     {id:"P119", events:["welcome","wedding"], plus:1, members:[{n:"Tan Xuan Ho", t:"a"}]},
     {id:"P120", events:["welcome","wedding"], plus:0, members:[{n:"Chau Le", t:"a"}, {n:"Huy Le", t:"a"}, {n:"Tyller Le", t:"a"}]},
@@ -419,13 +433,13 @@
     {id:"P126", events:["welcome","wedding"], plus:0, members:[{n:"Nelson Sanchez", t:"a"}, {n:"Suany Sanchez", t:"a"}, {n:"Benjamin Sanchez", t:"c"}]},
     {id:"P127", events:["welcome","wedding"], plus:1, members:[{n:"Karsen Dhanaraj", t:"a"}]},
     {id:"P128", events:["welcome","wedding"], plus:0, members:[{n:"Naomi Hibbs", t:"a"}, {n:"Alex Hibbs", t:"a"}, {n:"Beatrix Hibbs", t:"c"}]},
-    {id:"P129", events:["welcome","tea","wedding"], plus:0, members:[{n:"Jamie Bui", t:"a"}]},
+    {id:"P129", events:["tea","welcome","wedding"], plus:0, members:[{n:"Jamie Bui", t:"a"}]},
     {id:"P130", events:["welcome","wedding"], plus:0, members:[{n:"Doris Burris", t:"a", k:["Monan"]}]},
     {id:"P131", events:["welcome","wedding"], plus:0, members:[{n:"Jamie Hendricks", t:"a"}]},
     {id:"P132", events:["welcome","wedding"], plus:0, members:[{n:"Diana Scovile", t:"a"}, {n:"John Scovile", t:"a"}]},
     {id:"P134", events:["welcome","wedding"], plus:1, members:[{n:"Ryan Ciamillo", t:"a"}]},
     {id:"P135", events:["welcome","wedding"], plus:1, members:[{n:"Van Ciamillo", t:"a"}]},
-    {id:"P136", events:["welcome","tea","wedding"], plus:0, members:[{n:"Mimi McGinn", t:"a"}]},
+    {id:"P136", events:["tea","welcome","wedding"], plus:0, members:[{n:"Mimi McGinn", t:"a"}]},
     {id:"P137", events:["welcome","wedding"], plus:0, members:[{n:"Jack Richardson", t:"a"}, {n:"Gail Richardson", t:"a"}]},
   ];
 
@@ -557,7 +571,7 @@
     } else po.classList.remove('visible');
 
     let first=true;
-    ['tea','welcome','wedding'].forEach(ev=>{
+    ['rehearsal','tea','welcome','wedding'].forEach(ev=>{
       const el=document.getElementById('event-'+ev);
       el.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('active'));
       const show=p.events.includes(ev);
@@ -587,8 +601,8 @@
 
   function submitRSVP(){
     if(!currentParty)return;
-    const labels={welcome:'Welcome Party',tea:'Tea Ceremony',wedding:'The Wedding'};
-    const order=['tea','welcome','wedding'];
+    const labels={rehearsal:'Rehearsal Dinner',welcome:'Welcome Party',tea:'Tea Ceremony',wedding:'The Wedding'};
+    const order=['rehearsal','tea','welcome','wedding'];
     const evLines=order.filter(ev=>currentParty.events.includes(ev)).map(ev=>{
       const a=attendState[ev];
       if(a===true)return '&#10003;&nbsp; '+labels[ev]+' &mdash; Joyfully accepts';
