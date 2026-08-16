@@ -12,17 +12,16 @@
        warm cream base · avocado green · forest green accents · olive ink.
        ════════════════════════════════════════════════════════════════ */
     :root{
-      --cream:      #f0ead5;  /* page background — from swatch  */
-      --card:       #faf6ea;  /* lifted card surface            */
-      --paper:      #e9e2cb;  /* warm paper sections            */
-      --green:      #67845c;  /* sage green — from swatch       */
-      --green-deep: #4e6644;  /* deeper sage (buttons/accents)  */
-      --green-darker:#3e5236;
-      --ink:        #3b4232;  /* dark olive text                */
-      --ink-soft:   #6e7258;  /* muted text                     */
-      --on-green:   #f0ead5;  /* cream text on green            */
-      --gold:       #bfa14e;  /* subtle gold accent             */
-      --line:       #d6cdaf;  /* hairline rule                  */
+      --cream:      #ffffff;  /* page background — white        */
+      --card:       #f6f8f4;  /* lifted card surface            */
+      --paper:      #eaf0e7;  /* soft sage panel                */
+      --green:      #4a6b4f;  /* mid forest green (bands)       */
+      --green-deep: #3a5a40;  /* deep forest — text & accents   */
+      --green-darker:#2c4531;
+      --ink:        #3a5a40;  /* forest green text              */
+      --ink-soft:   #4f6d55;  /* muted green text               */
+      --on-green:   #ffffff;  /* white text on green            */
+      --line:       #d5e0d3;  /* hairline rule                  */
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Cormorant Garamond',serif;background:var(--cream);color:var(--ink);
@@ -76,10 +75,10 @@
       text-align:center;border:1px solid var(--green-deep);border-radius:3px;background:var(--card);
       color:var(--ink);outline:none;transition:.25s;}
     .search-input::placeholder{color:var(--ink-soft);opacity:.6;}
-    .search-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(154,165,78,.15);}
+    .search-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(58,90,64,.15);}
     .suggestion{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);
       border:1px solid var(--green-deep);border-radius:3px;z-index:50;overflow:hidden;
-      box-shadow:0 12px 30px rgba(67,81,31,.18);display:none;}
+      box-shadow:0 12px 30px rgba(44,69,49,.16);display:none;}
     .suggestion-item{padding:15px 20px;cursor:pointer;display:flex;justify-content:space-between;
       align-items:center;transition:background .15s;}
     .suggestion-item:hover{background:var(--paper);}
