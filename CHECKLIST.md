@@ -3,24 +3,30 @@
 Running list of things to complete for the Quynh & Benjamin RSVP site.
 Wedding: **August 28, 2027** · Live site: https://bwoodlax-jpg.github.io/Wedding/
 
-Last updated: 2026-08-16
+Last updated: 2026-08-16 (backend built — awaiting deploy)
 
 ---
 
 ## ⬜ Open items
 
-### 1. Backend — wire the site to the Google Sheet (Apps Script)  ← THE BIG ONE
-Right now the form only shows a "Thank You" screen in the browser; **submissions
-are NOT saved anywhere.** Nothing else on this list matters until this is done.
-- Google Apps Script web app: receives the form POST, appends one row per person
-  to the **RSVP Responses** tab.
-- Move the guest lookup **server-side** so the full guest list never reaches the
-  browser (closes the biggest privacy risk — see `SECURITY-RISKS.md` Risk #2).
-- Decide: does a re-submission overwrite the party's rows, or append a new set?
+### 1. Backend — DEPLOY the Apps Script  ← YOUR NEXT STEP
+The code is written (`apps-script/Code.gs`) and the site is wired to call it.
+**It won't save until you deploy it and paste the URL in.**
+1. Open the sheet → Extensions → Apps Script → paste in `apps-script/Code.gs`.
+2. Deploy → New deployment → Web app · Execute as **Me** · Access **Anyone**.
+3. Send me the `/exec` URL and I'll set `RSVP_ENDPOINT` in index.html.
+- Re-submissions **replace** that party's earlier rows (`REPLACE_EXISTING = true`).
 - Data lives in: **Wedding RSVP Data — Quynh & Benjamin** (private Google Sheet)
   https://docs.google.com/spreadsheets/d/1KsHd-9A-et49a-fzvmevxkZhSwr_KvduGkDu5sTGnMg/edit
 
-### 2. Remaining sheet cleanup (small)
+### 1b. Still open: move the guest lookup server-side
+The guest list is still embedded in the page, so it's readable via View Source.
+Moving search into the Apps Script closes `SECURITY-RISKS.md` Risk #2. Separate,
+larger change — the responses backend above does not do this.
+
+### 2. Remaining sheet cleanup — DONE
+(P025 formal name, P052 children named, P201–P204 typed, P058 removed.)
+Previously listed, now resolved:
 - **P025 Formal Name** still reads "Ms. Mariane Burris" → "Marianne" (Full Name is fixed).
 - **P201–P204** (Jennifer / Michael / Peter / Daniel Ho): no Guest Type and no event
   columns set. Currently defaulted to **Adult + Welcome + Wedding**. Fill in if any
@@ -33,10 +39,9 @@ are NOT saved anywhere.** Nothing else on this list matters until this is done.
   chooser distinguishing them by household, so this works either way.
 
 ### 3. Frontend display enhancements
-- Add the real **calla lily** hero image (the site uses a blurred calla lily behind
-  white script titles) — waiting on the asset from you.
-- Optionally add the **QB monogram** used on the wedding site's section headers.
-- Confirm the **Rehearsal Dinner venue** (currently shows date + 6:00 PM only).
+- Calla lily hero image — **declined, not doing.**
+- QB monogram — **not needed.**
+- Rehearsal Dinner venue — **done** (Griffin Ballroom).
 
 ---
 
