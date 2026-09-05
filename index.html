@@ -32,11 +32,6 @@
     .eyebrow{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.72rem;
       letter-spacing:4px;text-transform:uppercase;color:var(--green-deep);}
 
-    /* ── Mock banner ── */
-    .mock-banner{background:var(--green-deep);color:var(--on-green);text-align:center;
-      padding:7px 16px;font-family:'Cormorant Garamond',serif;font-size:.8rem;letter-spacing:1.5px;
-      text-transform:uppercase;}
-
     /* ── Top bar ── */
     .topbar{text-align:center;padding:14px;border-bottom:1px solid var(--line);}
     .topbar a{color:var(--green-deep);text-decoration:none;font-family:'Cormorant Garamond',serif;
@@ -191,10 +186,7 @@
 </head>
 <body>
 
-<div class="mock-banner">Prototype &middot; Testing Mode</div>
-
 <div class="topbar">
-  <!-- TODO: confirm final wedding-site URL before launch -->
   <a href="https://quynh-ben.my.canva.site/wedding/" target="_blank">&lsaquo;&nbsp;&nbsp;Return to Wedding Website</a>
 </div>
 
@@ -277,7 +269,6 @@
       <div id="plusOneFields"></div>
     </div>
 
-    <!-- TODO: confirm rehearsal dinner venue before launch -->
     <div class="form-section first" id="event-tea">
       <div class="event-head">
         <div class="ev-when">Friday &middot; August 27</div>
@@ -353,7 +344,6 @@
     <div class="conf-script">Thank You</div>
     <p>Your RSVP is received. Quynh &amp; Benjamin can&rsquo;t wait to celebrate with you.</p>
     <div class="conf-detail" id="confDetail"></div>
-    <!-- TODO: confirm final wedding-site URL before launch -->
     <a class="return-btn" href="https://quynh-ben.my.canva.site/wedding/" target="_blank">Return to Wedding Website</a>
   </div>
 
@@ -693,9 +683,9 @@
     const err=document.getElementById('submitError');
     err.style.display='none';
 
-    // Until the Apps Script URL is filled in above, confirm locally so the
-    // page still works — nothing is saved in that state.
-    if(!RSVP_ENDPOINT){showConfirmation();return;}
+    // Never show a "Thank You" we can't back up: with no endpoint configured
+    // there is nowhere to save, so surface the error instead of pretending.
+    if(!RSVP_ENDPOINT){err.style.display='block';return;}
 
     const label=btn.textContent;
     btn.disabled=true;btn.textContent='Sending…';
