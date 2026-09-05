@@ -109,12 +109,14 @@
     .plusone-section .eyebrow{display:block;text-align:center;margin-bottom:16px;letter-spacing:2px;font-size:.84rem;}
     .plusone-field{margin-bottom:14px;}.plusone-field:last-child{margin-bottom:0;}
 
-    /* ── Party roster ── */
-    .party-intro{text-align:center;margin-bottom:22px;}
-    .party-intro h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.35rem;
-      letter-spacing:3px;text-transform:uppercase;color:var(--ink);}
-    .party-intro .roster{margin:10px auto 0;max-width:470px;color:var(--ink-soft);
-      font-size:1.2rem;line-height:1.5;}
+    /* ── Party members ── */
+    .party-section{margin-bottom:22px;display:none;}.party-section.visible{display:block;}
+    .party-head{text-align:center;font-family:'Cormorant Garamond',serif;font-weight:500;
+      font-size:1.25rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink);
+      line-height:1.4;margin-bottom:16px;}
+    .party-member{margin-bottom:15px;}.party-member:last-child{margin-bottom:0;}
+    .pm-name{text-align:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.24rem;
+      letter-spacing:.5px;color:var(--ink);margin-bottom:9px;}
 
     /* ── Event cards ── */
     .form-section{padding:20px 4px;border-top:1px solid var(--line);display:none;}
@@ -244,9 +246,9 @@
       <span class="reset-link" onclick="resetForm()">Not you? Search again</span>
     </div>
 
-    <div class="party-intro">
-      <h2>Your Party Includes</h2>
-      <div class="roster" id="partyRoster"></div>
+    <div class="party-section" id="partySection">
+      <h2 class="party-head">These Are the People in Your Party</h2>
+      <div id="partyFields"></div>
     </div>
 
     <div class="plusone-section" id="plusOneSection">
@@ -463,7 +465,7 @@
     return Object.values(best).sort((a,b)=>a.score-b.score);
   }
 
-  let currentParty=null,currentPerson='',currentOthers=[],attendState={},t1=null;
+  let currentParty=null,currentPerson='',currentOthers=[],attendState={},memberState={},t1=null;
   const input=document.getElementById('nameInput');
   const sugg=document.getElementById('suggestion');
   const ambiguousHint=document.getElementById('ambiguousHint');
@@ -524,7 +526,7 @@
 
   function selectParty(pi,person){
     const p=PARTIES[pi];
-    currentParty=p;currentPerson=person;attendState={};hideAllHints();input.value=person;
+    currentParty=p;currentPerson=person;attendState={};memberState={};hideAllHints();input.value=person;
     // Clear anything typed for a previously selected party.
     document.getElementById('diet').value='';
     document.getElementById('guestMessage').value='';
@@ -538,10 +540,20 @@
 
     currentOthers=p.members.filter(m=>m.n!==person);
 
-    // Roster: everyone on this invitation, plus any additional-guest allowance.
-    const roster=p.members.map(m=>m.n+(m.t==='c'?' (child)':''));
-    if(p.plus>0) roster.push(p.plus===1?'one additional guest':p.plus+' additional guests');
-    document.getElementById('partyRoster').textContent=roster.join(' · ');
+    // A yes/no for each other named member. Child status stays in the data
+    // (and is written to the sheet) but isn't labelled on the page.
+    const ps=document.getElementById('partySection'),pff=document.getElementById('partyFields');
+    pff.innerHTML='';
+    if(currentOthers.length){ps.classList.add('visible');
+      currentOthers.forEach((m,i)=>{
+        pff.innerHTML+='<div class="party-member" id="pm-'+i+'">'+
+          '<div class="pm-name">'+m.n+'</div>'+
+          '<div class="yn-group">'+
+          '<button class="yn-btn yes" onclick="toggleMember('+i+',true)">Joyfully accepts</button>'+
+          '<button class="yn-btn no" onclick="toggleMember('+i+',false)">Regretfully declines</button>'+
+          '</div></div>';
+      });
+    } else ps.classList.remove('visible');
     const info=[];
     if(currentOthers.length) info.push('your party');
     if(p.plus>0) info.push(p.plus+' additional guest'+(p.plus>1?'s':''));
@@ -574,6 +586,13 @@
     setTimeout(()=>document.getElementById('rsvpForm').scrollIntoView({behavior:'smooth',block:'start'}),100);
   }
 
+  function toggleMember(i,yes){
+    memberState[currentOthers[i].n]=yes;
+    const s=document.getElementById('pm-'+i);
+    s.querySelector('.yn-btn.yes').classList.toggle('active',yes);
+    s.querySelector('.yn-btn.no').classList.toggle('active',!yes);
+  }
+
   function toggleAttend(ev,yes){
     attendState[ev]=yes;
     const s=document.getElementById('event-'+ev);
@@ -604,9 +623,9 @@
     const me=currentParty.members.find(m=>m.n===currentPerson);
     const guests=[rowFor(currentPerson, me&&me.t==='c'?'Child':'Adult', ev=>attendState[ev])];
 
-    // Named members are covered by the party's answers — no separate reply.
+    // Each named member's own yes/no, applied to the events they're invited to.
     currentOthers.forEach(m=>{
-      guests.push(rowFor(m.n, m.t==='c'?'Child':'Adult', ev=>attendState[ev]));
+      guests.push(rowFor(m.n, m.t==='c'?'Child':'Adult', ()=>memberState[m.n]));
     });
 
     for(let i=1;i<=currentParty.plus;i++){
@@ -633,14 +652,13 @@
     });
     let html='<span class="ch">'+currentPerson+'</span>'+
       evLines.map(l=>'<div class="row">'+l+'</div>').join('');
-    const covers=currentParty.members.map(m=>m.n);
-    for(let i=1;i<=currentParty.plus;i++){
-      const el=document.getElementById('plusone-'+i), nm=el&&el.value.trim();
-      if(nm) covers.push(nm);
-    }
-    if(covers.length>1){
-      html+='<span class="ch">This Reply Covers</span>'+
-        covers.map(n=>'<div class="row">&middot;&nbsp; '+n+'</div>').join('');
+    if(currentOthers.length){
+      html+='<span class="ch">Your Party</span>'+currentOthers.map(m=>{
+        const a=memberState[m.n];
+        const mark=a===true?'&#10003;':a===false?'&#10007;':'&middot;';
+        const st=a===true?'Joyfully accepts':a===false?'Regretfully declines':'(no response yet)';
+        return '<div class="row">'+mark+'&nbsp; '+m.n+' &mdash; '+st+'</div>';
+      }).join('');
     }
     document.getElementById('rsvpForm').style.display='none';
     const c=document.getElementById('confirmation');c.classList.add('visible');
@@ -679,7 +697,7 @@
   }
 
   function resetForm(){
-    currentParty=null;currentPerson='';currentOthers=[];attendState={};input.value='';hideAllHints();
+    currentParty=null;currentPerson='';currentOthers=[];attendState={};memberState={};input.value='';hideAllHints();
     document.getElementById('rsvpForm').style.display='none';
     document.getElementById('confirmation').classList.remove('visible');
     document.getElementById('heroSection').style.display='block';
