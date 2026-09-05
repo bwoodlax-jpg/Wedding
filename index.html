@@ -22,6 +22,7 @@
       --ink:        #3a5a40;  /* forest green text              */
       --ink-soft:   #4f6d55;  /* muted green text               */
       --on-green:   #ffffff;  /* white text on green            */
+      --green-muted:#5f7a64;  /* selected "declines" state      */
       --line:       #d5e0d3;  /* hairline rule                  */
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -134,7 +135,7 @@
       cursor:pointer;transition:.2s;color:var(--ink-soft);}
     .yn-btn:hover{border-color:var(--green-deep);color:var(--green-deep);}
     .yn-btn.yes.active{background:var(--green-deep);border-color:var(--green-deep);color:var(--on-green);}
-    .yn-btn.no.active{background:var(--paper);border-color:var(--line);color:var(--ink-soft);}
+    .yn-btn.no.active{background:var(--green-muted);border-color:var(--green-muted);color:var(--on-green);}
 
     /* ── General ── */
     .general-section{padding-top:22px;border-top:1px solid var(--line);margin-bottom:8px;display:none;}
