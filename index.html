@@ -116,16 +116,6 @@
     .party-intro .roster{margin:10px auto 0;max-width:470px;color:var(--ink-soft);
       font-size:1.2rem;line-height:1.5;}
 
-    /* ── Party members ── */
-    .party-section{margin-bottom:20px;display:none;}.party-section.visible{display:block;}
-    .party-section .eyebrow{display:block;text-align:center;margin-bottom:16px;}
-    .party-member{margin-bottom:15px;}.party-member:last-child{margin-bottom:0;}
-    .pm-name{text-align:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.24rem;
-      letter-spacing:.5px;color:var(--ink);margin-bottom:9px;}
-    .pm-tag{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.56rem;letter-spacing:1.5px;
-      text-transform:uppercase;color:var(--green-deep);border:1px solid var(--line);border-radius:2px;
-      padding:1px 6px;margin-left:6px;vertical-align:middle;}
-
     /* ── Event cards ── */
     .form-section{padding:20px 4px;border-top:1px solid var(--line);display:none;}
     .form-section.visible{display:block;}
@@ -184,8 +174,17 @@
       letter-spacing:2.5px;text-transform:uppercase;text-decoration:none;transition:.2s;}
     .return-btn:hover{background:var(--green-deep);color:var(--on-green);}
 
-    footer{text-align:center;padding:30px;background:var(--green);color:var(--on-green);
-      font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.64rem;letter-spacing:2.5px;text-transform:uppercase;}
+    footer{text-align:center;padding:26px 16px;background:var(--green);color:var(--on-green);
+      font-family:'Cormorant Garamond',serif;font-weight:500;font-size:.64rem;letter-spacing:2px;
+      text-transform:uppercase;line-height:1.9;}
+    footer span{white-space:nowrap;}
+    footer .dot{margin:0 .25em;}
+    /* Too narrow for one line: drop to two, keeping the venue intact
+       and without leaving a separator dangling at the line end. */
+    @media(max-width:660px){
+      footer .venue{display:block;}
+      footer .venue-dot{display:none;}
+    }
 
     @media(max-width:460px){
       .hero h1{font-size:3.6rem;}
@@ -248,11 +247,6 @@
     <div class="party-intro">
       <h2>Your Party Includes</h2>
       <div class="roster" id="partyRoster"></div>
-    </div>
-
-    <div class="party-section" id="partySection">
-      <span class="eyebrow">Others in Your Party</span>
-      <div id="partyFields"></div>
     </div>
 
     <div class="plusone-section" id="plusOneSection">
@@ -340,7 +334,7 @@
 
 </div>
 
-<footer>Quynh &amp; Benjamin &nbsp;&middot;&nbsp; August 28, 2027 &nbsp;&middot;&nbsp; The Grandover Hotel &amp; Resort</footer>
+<footer><span>Quynh &amp; Benjamin</span> <span class="dot">&middot;</span> <span>August 28, 2027</span><span class="dot venue-dot">&middot;</span><span class="venue">The Grandover Hotel &amp; Resort</span></footer>
 
 <script>
   // ── Backend ────────────────────────────────────────────────────────
@@ -469,7 +463,7 @@
     return Object.values(best).sort((a,b)=>a.score-b.score);
   }
 
-  let currentParty=null,currentPerson='',currentOthers=[],attendState={},memberState={},t1=null;
+  let currentParty=null,currentPerson='',currentOthers=[],attendState={},t1=null;
   const input=document.getElementById('nameInput');
   const sugg=document.getElementById('suggestion');
   const ambiguousHint=document.getElementById('ambiguousHint');
@@ -530,7 +524,7 @@
 
   function selectParty(pi,person){
     const p=PARTIES[pi];
-    currentParty=p;currentPerson=person;attendState={};memberState={};hideAllHints();input.value=person;
+    currentParty=p;currentPerson=person;attendState={};hideAllHints();input.value=person;
     // Clear anything typed for a previously selected party.
     document.getElementById('diet').value='';
     document.getElementById('guestMessage').value='';
@@ -555,20 +549,6 @@
       info.length? 'You are invited with '+info.join(' and ')+'. Please reply for everyone below.'
                  : 'We have you reserved as our guest.';
 
-    // Other named members of the party
-    const ps=document.getElementById('partySection'),pff=document.getElementById('partyFields');
-    pff.innerHTML='';
-    if(currentOthers.length){ps.classList.add('visible');
-      currentOthers.forEach((m,i)=>{
-        pff.innerHTML+='<div class="party-member" id="pm-'+i+'">'+
-          '<div class="pm-name">'+m.n+(m.t==='c'?' <span class="pm-tag">Child</span>':'')+'</div>'+
-          '<div class="yn-group">'+
-          '<button class="yn-btn yes" onclick="toggleMember('+i+',true)">Joyfully accepts</button>'+
-          '<button class="yn-btn no" onclick="toggleMember('+i+',false)">Regretfully declines</button>'+
-          '</div></div>';
-      });
-    } else ps.classList.remove('visible');
-
     // Additional (unnamed) guests
     const po=document.getElementById('plusOneSection'),pf=document.getElementById('plusOneFields');
     pf.innerHTML='';
@@ -592,13 +572,6 @@
     document.getElementById('generalSection').classList.add('visible');
     document.getElementById('submitBtn').classList.add('visible');
     setTimeout(()=>document.getElementById('rsvpForm').scrollIntoView({behavior:'smooth',block:'start'}),100);
-  }
-
-  function toggleMember(i,yes){
-    memberState[currentOthers[i].n]=yes;
-    const s=document.getElementById('pm-'+i);
-    s.querySelector('.yn-btn.yes').classList.toggle('active',yes);
-    s.querySelector('.yn-btn.no').classList.toggle('active',!yes);
   }
 
   function toggleAttend(ev,yes){
@@ -631,8 +604,9 @@
     const me=currentParty.members.find(m=>m.n===currentPerson);
     const guests=[rowFor(currentPerson, me&&me.t==='c'?'Child':'Adult', ev=>attendState[ev])];
 
+    // Named members are covered by the party's answers — no separate reply.
     currentOthers.forEach(m=>{
-      guests.push(rowFor(m.n, m.t==='c'?'Child':'Adult', ()=>memberState[m.n]));
+      guests.push(rowFor(m.n, m.t==='c'?'Child':'Adult', ev=>attendState[ev]));
     });
 
     for(let i=1;i<=currentParty.plus;i++){
@@ -659,13 +633,14 @@
     });
     let html='<span class="ch">'+currentPerson+'</span>'+
       evLines.map(l=>'<div class="row">'+l+'</div>').join('');
-    if(currentOthers.length){
-      html+='<span class="ch">Your Party</span>'+currentOthers.map(m=>{
-        const a=memberState[m.n];
-        const mark=a===true?'&#10003;':a===false?'&#10007;':'&middot;';
-        const st=a===true?'Joyfully accepts':a===false?'Regretfully declines':'(no response yet)';
-        return '<div class="row">'+mark+'&nbsp; '+m.n+' &mdash; '+st+'</div>';
-      }).join('');
+    const covers=currentParty.members.map(m=>m.n);
+    for(let i=1;i<=currentParty.plus;i++){
+      const el=document.getElementById('plusone-'+i), nm=el&&el.value.trim();
+      if(nm) covers.push(nm);
+    }
+    if(covers.length>1){
+      html+='<span class="ch">This Reply Covers</span>'+
+        covers.map(n=>'<div class="row">&middot;&nbsp; '+n+'</div>').join('');
     }
     document.getElementById('rsvpForm').style.display='none';
     const c=document.getElementById('confirmation');c.classList.add('visible');
@@ -704,7 +679,7 @@
   }
 
   function resetForm(){
-    currentParty=null;currentPerson='';currentOthers=[];attendState={};memberState={};input.value='';hideAllHints();
+    currentParty=null;currentPerson='';currentOthers=[];attendState={};input.value='';hideAllHints();
     document.getElementById('rsvpForm').style.display='none';
     document.getElementById('confirmation').classList.remove('visible');
     document.getElementById('heroSection').style.display='block';
