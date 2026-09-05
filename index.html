@@ -162,6 +162,8 @@
       background:var(--paper);border:1px solid var(--line);border-radius:3px;
       text-align:center;color:var(--ink-soft);font-size:1.1rem;line-height:1.5;}
     .submit-error a{color:var(--green-deep);font-weight:500;}
+    .err-detail{display:none;margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+      font-size:.82rem;line-height:1.45;text-align:left;word-break:break-word;opacity:.85;}
 
     /* ── Confirmation ── */
     .confirmation{text-align:center;padding:40px 20px;display:none;}.confirmation.visible{display:block;}
@@ -324,6 +326,7 @@
     <div class="submit-error" id="submitError">
       We couldn&rsquo;t save your reply just now. Please check your connection and try again,
       or reach us at <a href="mailto:woodfamily.bq@gmail.com">woodfamily.bq@gmail.com</a>.
+      <div class="err-detail" id="submitErrorDetail"></div>
     </div>
   </div>
 
@@ -687,11 +690,26 @@
         headers:{'Content-Type':'text/plain;charset=utf-8'},
         body:JSON.stringify(buildPayload())
       });
-      const out=await res.json();
+      // Read as text first: a misconfigured deployment answers with an HTML
+      // sign-in page, and res.json() would throw something unhelpful.
+      const raw=await res.text();
+      let out;
+      try{ out=JSON.parse(raw); }
+      catch(_){
+        throw new Error('HTTP '+res.status+' — expected JSON, got: '+raw.slice(0,120));
+      }
       if(!out.ok)throw new Error(out.error||'save failed');
       showConfirmation();
     }catch(e){
+      console.error('RSVP save failed:',e);
       err.style.display='block';
+      // Append the underlying cause when the page is opened with ?debug=1,
+      // so a failure can be diagnosed without a developer console.
+      const dbg=document.getElementById('submitErrorDetail');
+      if(/[?&]debug=1/.test(location.search)){
+        dbg.textContent=String(e&&e.message||e);
+        dbg.style.display='block';
+      }
     }finally{
       btn.disabled=false;btn.textContent=label;
     }
